@@ -17,18 +17,21 @@ using demolish::geometry::Vertex;
 class demolish::geometry::Polygon
 {
 private:
-    std::vector<Vertex> _vertices;
+    std::vector<Vertex>     _vertices;
+    std::array<float,2>     _centroid;
+    int                     _numberOfVertices;
+    void                    calculateCentroid();
 public:
     Polygon(){};
     Polygon(std::vector<Vertex> &uniqueVertices);
-    Polygon convexHull();
+    Polygon                 convexHull();
     
     Polygon& operator=(const Polygon& p);
    
-    std::vector<Vertex>& getVertices();
+    std::vector<Vertex>&    getVertices();
     void sortWRTTheta();
     void displayProperties();
-    void calculatePolarWRTLocation(std::array<float,2> loc);
+    void calculatePolarWRTCentroid();
     ~Polygon();
 };
 

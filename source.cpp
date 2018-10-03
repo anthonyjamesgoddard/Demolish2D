@@ -1,8 +1,9 @@
 #include<iostream>
-#include"polygon.h"
-#include"object.h"
+#include"scenario.h"
 
 using namespace demolish;
+
+world::Scenario scenario(0.1,10);
 
 int main()
 {
@@ -35,15 +36,15 @@ int main()
     verts.push_back(Vertex(0,-0.7));
     verts.push_back(Vertex(1,-1));
     verts.push_back(Vertex(1.3,0.05));
-    std::array<float,2> origin = {0,0};
-    
-    
 
+
+    std::array<float,2> locObj1 = {3,0};
+    std::array<float,2> locObj2 = {0,0};
+     
     auto poly = geometry::Polygon(verts);
-    auto obj  = world::Object(poly,origin);
-
-    obj.displayProperties();
-
+    
+    scenario.addObjectToScenario(poly,locObj1);
+    scenario.addObjectToScenario(poly,locObj2);
 
     return 0;
 }

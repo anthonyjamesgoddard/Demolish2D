@@ -12,22 +12,22 @@ namespace demolish{
 
 using demolish::geometry::Polygon;
 
-/*
- * _location is some point *inside* the object
- *  this, or even the barycent might not be good enough
- *  for our purposes.
+/**
+ * 
+ * _location is used to denote the position of
+ * the object in space.
+ *
  */
+
 
 class demolish::world::Object
 {
 private:
-    // could have bools that represent the objects state.
-    // That is, either sphere are sectorbased
     Polygon                         _geometry;
     Polygon                         _convexHull;
     std::array<float,2>             _location;
+    std::array<float,2>             _centroid;
     float                           _boundingRadius;
-    // needs to change to a tree
     std::vector<Sector>             _sectors;
 
     void                            fillSectors();

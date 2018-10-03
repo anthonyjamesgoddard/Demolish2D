@@ -15,13 +15,18 @@ class demolish::geometry::Vertex
 {
 private:
     float _x,_y;                        // cartesian
-    float _r,_theta;                    // polar (w.r.t centre of host particle)
+    float _r,_theta;                    // polar (w.r.t centroid of polygon)
 public:
     Vertex(){};
     Vertex(float x,float y);
+
     // operator overloads
     Vertex& operator=(const Vertex& v);
     bool operator<(const Vertex& v) const;
+    Vertex
+
+
+    
     void fillPolars(std::array<float,2> loc);
 
     float getTheta()

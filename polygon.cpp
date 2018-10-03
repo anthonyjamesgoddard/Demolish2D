@@ -1,13 +1,31 @@
 #include "polygon.h"
-
 #include<algorithm>
 
 using demolish::geometry::Polygon;
+
+void Polygon::calculateCentroid()
+{
+    Vertex centroid(0,0);
+    float areaOfPolygon = 0;
+    float oneOverThree = 1.0f/3.0f;
+
+    for(int i=0;i<_numberOfVertices;++i)
+    {
+        Vertex vi = _vertices[i];
+        int j = i + 1 < _numberOfVertices ? i + 1 : 0;
+        Vertex vj = _vertices[j];
+        float areaComponent = cross(vi,vj);
+        area+=0.5*areaComponent;
+
+        // this is not finished!!!!!!
+    }
+}
 
 Polygon::Polygon(
         std::vector<Vertex> &uniqueVertices)
 {
     _vertices = uniqueVertices;
+    _numberOfVertices = uniqueVertices.size();
 }
 
 
