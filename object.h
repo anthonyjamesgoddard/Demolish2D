@@ -21,13 +21,17 @@ using demolish::geometry::Polygon;
 class demolish::world::Object
 {
 private:
+    // could have bools that represent the objects state.
+    // That is, either sphere are sectorbased
     Polygon                         _geometry;
     Polygon                         _convexHull;
     std::array<float,2>             _location;
     float                           _boundingRadius;
+    // needs to change to a tree
     std::vector<Sector>             _sectors;
 
     void                            fillSectors();
+    void                            generateLoDs();
 public:
 
     Object( Polygon                          &geometry,

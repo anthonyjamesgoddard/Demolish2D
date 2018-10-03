@@ -15,32 +15,13 @@ int main()
      *      Convex Hull (correct)
      *      Plenim. Sectorisation (correct)
      *
-     */
-
-    /*
-    verts.push_back(Vertex(1,1));
-    verts.push_back(Vertex(0.5,0.9));
-    verts.push_back(Vertex(0,0.7));
-    verts.push_back(Vertex(-0.5,0.9));
-    verts.push_back(Vertex(-1,1));
-    verts.push_back(Vertex(-1,-1));
-    verts.push_back(Vertex(0,-0.7));
-    verts.push_back(Vertex(1,-1));
-    verts.push_back(Vertex(0.3,0));
-    std::array<float,2> origin = {0,0};
-    */
-    
-    /*
-     *  "Fish"
-     *
-     *  Tested:
-     *      Convex Hull (correct)
-     *      Plenim. Sectorisation (issue):
-     *          the x and y co-ordinates are
-     *          both zero for the last vertex
-     *          (1.3,0.1)
-     *          int the sectorisation.
-     *
+     *      !! there is an issue with the values 
+     *      of the cartesian coords in the sectors
+     *  
+     *  Temporary Patch:
+     *      If we need cartesian coords then
+     *      just calculate them from polar 
+     *      coordinates
      */
 
     
@@ -49,10 +30,11 @@ int main()
     verts.push_back(Vertex(0,0.7));
     verts.push_back(Vertex(-0.5,0.9));
     verts.push_back(Vertex(-1,1));
+    verts.push_back(Vertex(-0.5,0));
     verts.push_back(Vertex(-1,-1));
     verts.push_back(Vertex(0,-0.7));
     verts.push_back(Vertex(1,-1));
-    verts.push_back(Vertex(1.3,0.1));
+    verts.push_back(Vertex(1.3,0.05));
     std::array<float,2> origin = {0,0};
     
     
@@ -61,5 +43,7 @@ int main()
     auto obj  = world::Object(poly,origin);
 
     obj.displayProperties();
+
+
     return 0;
 }

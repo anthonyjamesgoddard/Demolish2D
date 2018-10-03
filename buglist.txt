@@ -1,0 +1,7 @@
+1. Vertices that appear in the first and last sector have 
+    a tendency to have thier cartesian coordinates wiped out
+    only when being accessed from a sector object.
+
+    A temp fix could be implemented.
+
+2. 

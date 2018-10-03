@@ -24,19 +24,8 @@ public:
     {
         _theta1 = theta1; _theta2 = theta2;
     }
-    void displayContents()
-    {
-        int LoDSz = _LoD.size();
-        for(int i=0;i<LoDSz;i++)
-        {
-            auto tempVec = _LoD[i];
-            int tempSz = tempVec.size();
-            for(int j=0;j<tempSz;j++)
-            {
-                tempVec[j]->displayProperties();
-            }
-        }
-    }
+    void generateLoDs();
+    void displayContents();
 };
 
 #endif

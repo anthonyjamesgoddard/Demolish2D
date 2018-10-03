@@ -89,14 +89,24 @@ void demolish::world::Object::fillSectors()
     }
     while(geometryVerts[vertexIndex].getTheta()<=
             _sectors[sectorIndex]._theta2)
-    { 
+    {
         finestLoD.push_back(&geometryVerts[vertexIndex]);
+        //below prints correct result!!!!!!!
+        finestLoD[vertexIndex]->displayProperties();
         vertexIndex++;
     }
     tempVec = finestLoD;
     _sectors[sectorIndex]._LoD.push_back(tempVec);
 }
 
+
+void demolish::world::Object::generateLoDs()
+{ 
+    for(auto & v : _sectors )
+    {
+        v.generateLoDs();
+    }
+}
 
 demolish::world::Object::Object(
         Polygon                          &geometry,
@@ -109,6 +119,7 @@ demolish::world::Object::Object(
     _geometry.sortWRTTheta();
     _convexHull.sortWRTTheta();
     fillSectors();
+    generateLoDs();
 }
 
 void demolish::world::Object::displayProperties()
@@ -121,9 +132,11 @@ void demolish::world::Object::displayProperties()
     _convexHull.displayProperties();
    
     std::cout << "conents of each sector " << '\n' << std::endl;
-
+    
+    int i=0;
     for(auto & v : _sectors )
     {
+        std::cout << "Sector " << i++ << std::endl;
         v.displayContents();
         std::cout << std::endl;
     }
