@@ -20,7 +20,6 @@ private:
     std::vector<Vertex>     _vertices;
     std::array<float,2>     _centroid;
     int                     _numberOfVertices;
-    void                    calculateCentroid();
 public:
     Polygon(){};
     Polygon(std::vector<Vertex> &uniqueVertices);
@@ -28,10 +27,11 @@ public:
     
     Polygon& operator=(const Polygon& p);
    
+    void                    calculateCentroid();
     std::vector<Vertex>&    getVertices();
-    void sortWRTTheta();
-    void displayProperties();
-    void calculatePolarWRTCentroid();
+    void                    sortWRTTheta();
+    void                    displayProperties();
+    void                    calculatePolarWRTCentroid();
     ~Polygon();
 };
 

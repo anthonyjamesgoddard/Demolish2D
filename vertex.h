@@ -14,6 +14,7 @@ namespace demolish{
 class demolish::geometry::Vertex
 {
 private:
+    // replace with std::array<float,4> ?!
     float _x,_y;                        // cartesian
     float _r,_theta;                    // polar (w.r.t centroid of polygon)
 public:
@@ -21,18 +22,21 @@ public:
     Vertex(float x,float y);
 
     // operator overloads
-    Vertex& operator=(const Vertex& v);
-    bool operator<(const Vertex& v) const;
-    Vertex
-
-
-    
-    void fillPolars(std::array<float,2> loc);
+    Vertex&     operator= (const Vertex&v);
+    bool        operator< (const Vertex&v) const;
+    Vertex      operator+ (const Vertex&v) const; 
+    Vertex&     operator+=(const Vertex&v);
+    Vertex&     operator*=(const float &a); 
+    // member functions
+    void        fillPolars(std::array<float,2> loc);
 
     float getTheta()
     {
         return _theta;
     }
+
+    float getX(){return _x;}
+    float getY(){return _y;}
 
     void displayProperties()
     {

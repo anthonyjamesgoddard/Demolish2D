@@ -142,4 +142,36 @@ void demolish::world::Object::displayProperties()
     }
 }
 
+// just making you aware of the note that was given above
+// Polygon::calculateCentroid(). 
 
+void demolish::world::Object::calculateMaterialParameters(float density)
+{
+    Vertex centroid(0,0); 
+    float areaComponent,Ix,Iy;
+    float inertia = 0;
+    float oneOverTwelve = 1.0f/12.0f;
+    for(int i=0;i<_numberOfVertices;++i)
+    {
+        //
+        // Calculation of the (second moment of) inertia
+        //
+        //      https://en.wikipedia.org/wiki/Second_moment_of_area#Any_cross_section_defined_as_polygon
+        //
+
+        Vertex vi       = _vertices[i];
+        int j = i + 1 < _numberOfVertices ? i + 1 : 0;
+        Vertex vj       = _vertices[j];
+        areaComponent   = cross(vi,vj);
+        area            += 0.5*areaComponent;
+        Ix = vi.getX()*vi.getX() + vi.getX()*vj.getX() +  vj.getX()*vj.getX();
+        Ix = vi.getY()*vi.getY() + vi.getY()*vj.getY() +  vj.getY()*vj.getY();
+        inertia+=oneOverTwelve*areaComponent*(Ix+Iy);
+    }
+    _mass = density*area;
+    _invMass = _mass ? 1.0f/_mass : 0.0f;
+
+    _inertia = inertia*density;
+    _invIntertia = _inertia ? 1.0f / _inertia : 0.0f;
+
+}

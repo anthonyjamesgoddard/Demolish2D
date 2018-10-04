@@ -26,17 +26,22 @@ private:
     Polygon                         _geometry;
     Polygon                         _convexHull;
     std::array<float,2>             _location;
-    std::array<float,2>             _centroid;
     float                           _boundingRadius;
     std::vector<Sector>             _sectors;
-
-    void                            fillSectors();
-    void                            generateLoDs();
+    // material params
+    float                           _density;
+    float                           _mass;
+    float                           _invMass;
+    float                           _inertia;
+    float                           _invIntertia;
 public:
 
-    Object( Polygon                          &geometry,
-            std::array<float,2>              &location);
+    Object( Polygon                 &geometry,
+            std::array<float,2>     &location);
 
     void                            displayProperties();
+    void                            fillSectors();
+    void                            generateLoDs();
+    void                            calculateMaterialParameters(float density);
 };
 #endif
