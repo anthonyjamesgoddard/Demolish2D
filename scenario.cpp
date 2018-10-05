@@ -9,3 +9,8 @@ void Scenario::addObjectToScenario(Polygon&                geometry,
     _objects.push_back(o);
 }
 
+std::vector<std::vector<Vertex>*> Scenario::getDrawables()
+{
+    //this function gets the drawable coordinates of the
+    // objects and displays them 
+}

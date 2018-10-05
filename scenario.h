@@ -17,14 +17,16 @@ private:
     std::vector<Object*>    _objects;
     // add vec of manifolds 
 public:
-    Scenario(  float       timestep,
-            int         numberOfIterations)
+    Scenario(  float        timestep,
+               int          numberOfIterations)
     : _timestep(timestep)
     , _numberOfIterations(numberOfIterations){}
 
-    void    addObjectToScenario(Polygon&                geometry, 
-                                std::array<float,2>     position);
+    void        addObjectToScenario(
+                Polygon&                geometry, 
+                std::array<float,2>     position);
 
+    std::vector<std::vector<Vertices>*> getDrawables();
 };
 
 #endif

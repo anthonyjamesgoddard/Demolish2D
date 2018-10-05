@@ -25,9 +25,15 @@ class demolish::world::Object
 private:
     Polygon                         _geometry;
     Polygon                         _convexHull;
-    std::array<float,2>             _location;
     float                           _boundingRadius;
     std::vector<Sector>             _sectors;
+
+    // physics parametrs
+    std::array<float,2>             _location;
+    std::array<float,2>             _velocity;
+    float                           _orientation;
+    float                           _angularVelocity;
+
     // material params
     float                           _density;
     float                           _mass;
