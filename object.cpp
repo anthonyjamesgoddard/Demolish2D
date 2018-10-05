@@ -114,12 +114,23 @@ demolish::world::Object::Object(
 {
     _geometry = geometry;
     _location = location;
-    _geometry.calculatePolarWRTLocation(_location);
-    _convexHull = _geometry.convexHull();
-    _geometry.sortWRTTheta();
+    _geometry.calculateCentroid();
+    // calculates centroid
+    _geometry.centreGeometry();
+    // translates polygon s.t centroid is (0,0)
+    _geometry.calculatePolarWRTCentroid();      
+    // fills in the polar rep. of the vectors
+    _convexHull = _geometry.convexHull();   
+    // obtains the convex hull
+    _convexHull.setCentroid(_geometry.getCentroid());
+    // set the centroid of the convex hull to
+    // the centroid of _geometry
+    _geometry.sortWRTTheta();               
     _convexHull.sortWRTTheta();
-    fillSectors();
-    generateLoDs();
+    fillSectors();                              
+    // fills the sectors with initial data
+    generateLoDs();                             
+    // fills in the levels of detail data structure.
 }
 
 void demolish::world::Object::displayProperties()
@@ -151,7 +162,11 @@ void demolish::world::Object::calculateMaterialParameters(float density)
     float areaComponent,Ix,Iy;
     float inertia = 0;
     float oneOverTwelve = 1.0f/12.0f;
-    for(int i=0;i<_numberOfVertices;++i)
+    float numberOfVertices = _geometry.getNumberOfVertices();
+    std::vector<Vertex> vertices = _geometry.getVertices(); 
+    Vertex origin(0,0);
+    float area=0;
+    for(int i=0;i<numberOfVertices;++i)
     {
         //
         // Calculation of the (second moment of) inertia
@@ -159,10 +174,10 @@ void demolish::world::Object::calculateMaterialParameters(float density)
         //      https://en.wikipedia.org/wiki/Second_moment_of_area#Any_cross_section_defined_as_polygon
         //
 
-        Vertex vi       = _vertices[i];
-        int j = i + 1 < _numberOfVertices ? i + 1 : 0;
-        Vertex vj       = _vertices[j];
-        areaComponent   = cross(vi,vj);
+        Vertex vi       = vertices[i];
+        int j = i + 1 < numberOfVertices ? i + 1 : 0;
+        Vertex vj       = vertices[j];
+        areaComponent   = cross(origin,vi,vj);
         area            += 0.5*areaComponent;
         Ix = vi.getX()*vi.getX() + vi.getX()*vj.getX() +  vj.getX()*vj.getX();
         Ix = vi.getY()*vi.getY() + vi.getY()*vj.getY() +  vj.getY()*vj.getY();

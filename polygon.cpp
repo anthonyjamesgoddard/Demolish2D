@@ -3,6 +3,24 @@
 
 using demolish::geometry::Polygon;
 
+void Polygon::setCentroid(std::array<float,2> c)
+{
+    _centroid = c;
+}
+
+std::array<float,2>& Polygon::getCentroid()
+{
+    return _centroid;
+}
+
+float Polygon::getNumberOfVertices()
+{
+    return _numberOfVertices;
+}
+
+
+
+
 // if the material parameters were associated with
 // the geometry and not the object itself then we would
 // have been able to calculate the centroid and all 
@@ -18,6 +36,7 @@ void Polygon::calculateCentroid()
     float areaOfPolygon = 0;
     float oneOverThree = 1.0f/3.0f;
     float areaComponent;
+    Vertex origin(0,0);
     for(int i=0;i<_numberOfVertices;++i)
     {
         //
@@ -29,9 +48,10 @@ void Polygon::calculateCentroid()
         Vertex vi = _vertices[i];
         int j = i + 1 < _numberOfVertices ? i + 1 : 0;
         Vertex vj = _vertices[j];
-        areaComponent = 0.5*cross(vi,vj);
+
+        areaComponent = 0.5*cross(origin,vi,vj);
         areaOfPolygon+= areaComponent;
-        centroid += areaComponent*oneOverThree*(vi+vj);
+        centroid += (vi+vj)*areaComponent*oneOverThree;
     }
     centroid  *= 1.0f/areaOfPolygon;
     _centroid  = {centroid.getX(),centroid.getY()};
@@ -39,6 +59,16 @@ void Polygon::calculateCentroid()
     // "centering the particle at the origin".
     // That is, subtracting the centroid from all
     // vertices in the polygon.
+}
+
+void Polygon::centreGeometry()
+{
+    for(auto&v:_vertices)
+    {
+       v.set(v.getX()-std::get<0>(_centroid),
+             v.getY()-std::get<1>(_centroid)); 
+    }
+    _centroid = {0,0};
 }
 
 Polygon::Polygon(
@@ -51,7 +81,7 @@ Polygon::Polygon(
 
 Polygon Polygon::convexHull()
 {
-    int n = _vertices.size(),k=0;
+    int n = _numberOfVertices,k=0;
 
     if(n<4)return *this;
     std::vector<Vertex> hull(2*n);
@@ -109,11 +139,11 @@ void Polygon::displayProperties()
     }
 }
 
-void Polygon::calculatePolarWRTLocation(std::array<float,2> loc)
+void Polygon::calculatePolarWRTCentroid()
 {
     for(auto & v : _vertices )
     {
-        v.fillPolars(loc);
+        v.fillPolars();
     }
 }
 

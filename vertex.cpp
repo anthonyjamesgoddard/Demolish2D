@@ -35,30 +35,35 @@ bool Vertex::operator<(const Vertex&v) const
 Vertex Vertex::operator+(const Vertex&v) const
 {
     float X = _x + v._x, Y = _y + v._y;
+    Vertex w = Vertex(X,Y);
+    return w;
+}
+
+Vertex Vertex::operator*(const float&a) const
+{
+    float X = _x*a, Y = _y*a;
     Vertex v = Vertex(X,Y);
     return v;
 }
 
-Vertex& Vertex::operator+=(const Vertex&v) const
+Vertex& Vertex::operator+=(const Vertex&v)
 {
     _x += v._x;
     _y += v._y;
     return *this;
 }
 
-Vertex& Vertex::operator*=(const float&a) const
+Vertex& Vertex::operator*=(const float&a)
 {
     _x*=a;_y*=a;
     return *this;
 }
 
-void Vertex::fillPolars(std::array<float,2> loc)
+void Vertex::fillPolars()
 {
-    float X = std::get<0>(loc);
-    float Y = std::get<1>(loc);
     //we could do without the sqrt
-    _r = sqrt((X - _x)*(X - _x) + (Y - _y)*(Y - _y));
-    _theta = atan2(_y - Y,_x - X);
+    _r = sqrt(_x*_x + _y*_y);
+    _theta = atan2(_y,_x);
     if(_theta<0)
     {
         _theta += 2*M_PI;

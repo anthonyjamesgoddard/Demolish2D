@@ -26,9 +26,15 @@ public:
     Polygon                 convexHull();
     
     Polygon& operator=(const Polygon& p);
-   
-    void                    calculateCentroid();
+    
+    // getters and setters
+    std::array<float,2>&    getCentroid();
+    void                    setCentroid(std::array<float,2> c);
+    float                   getNumberOfVertices();
     std::vector<Vertex>&    getVertices();
+
+    void                    calculateCentroid();
+    void                    centreGeometry();
     void                    sortWRTTheta();
     void                    displayProperties();
     void                    calculatePolarWRTCentroid();

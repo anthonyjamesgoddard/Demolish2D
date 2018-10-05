@@ -25,10 +25,11 @@ public:
     Vertex&     operator= (const Vertex&v);
     bool        operator< (const Vertex&v) const;
     Vertex      operator+ (const Vertex&v) const; 
+    Vertex      operator* (const float& a) const; 
     Vertex&     operator+=(const Vertex&v);
-    Vertex&     operator*=(const float &a); 
+    Vertex&     operator*=(const float& a);
     // member functions
-    void        fillPolars(std::array<float,2> loc);
+    void        fillPolars();
 
     float getTheta()
     {
@@ -37,6 +38,7 @@ public:
 
     float getX(){return _x;}
     float getY(){return _y;}
+    void set(float x,float y){_x = x;_y=y;}
 
     void displayProperties()
     {

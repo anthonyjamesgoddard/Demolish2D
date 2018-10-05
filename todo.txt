@@ -1,24 +1,2 @@
 1. Add functionality to draw the scene to the screen
-    + in doing this we might find that our centroid/matParams
-        routine needs changing. That is, do we subtract the 
-        centroid from all vertices to maintain consistency?
-
-        NO:
-            The centroid of the convex hull and the non-convex
-            shape will be inheriently different.
-
-            BUT...
-        YES:
-            We could just make use of the ACTUAL geometries centroid
-            to do this. basically using the centroid of _geometry
-            as the pseudo-centroid of the convex hull.
-
-            This could be added as a method of Object.
-            centreGeometry()??
-            subtracts the centroid from the vertices of the 
-            object itself and the convex hull. If this is called
-            before the sector formation routine we would not have to
-            change much?
-
-
 2. Start adding collision detection code.
