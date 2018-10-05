@@ -2,12 +2,12 @@
 #define _SCENARIO
 
 #include"object.h"
-
 namespace demolish{
     namespace world{
         class Scenario;
     }
 }
+
 
 class demolish::world::Scenario
 {
@@ -26,7 +26,7 @@ public:
                 Polygon&                geometry, 
                 std::array<float,2>     position);
 
-    std::vector<std::vector<Vertices>*> getDrawables();
+    std::vector<std::vector<Vertex>*> getDrawables();
 };
 
 #endif

@@ -42,9 +42,9 @@ int main()
     std::array<float,2> locObj2 = {0,0};
      
     auto poly = geometry::Polygon(verts);
-    
     scenario.addObjectToScenario(poly,locObj1);
     scenario.addObjectToScenario(poly,locObj2);
+
 
     return 0;
 }
