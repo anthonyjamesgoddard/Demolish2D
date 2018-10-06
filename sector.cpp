@@ -15,12 +15,11 @@ void demolish::world::Sector::displayContents()
    int LoDSz = _LoD.size();
    for(int i=0;i<LoDSz;i++)
    {
-       auto tempVec = _LoD[i];
-       int tempSz = tempVec.size();
+       int tempSz = _LoD[i].size();
        std::cout << "Layer " << i << " vertices" << std::endl;
        for(int j=0;j<tempSz;j++)
        {
-           tempVec[j]->displayProperties();
+           _LoD[i][j]->displayProperties();
        }
    }
 }

@@ -14,7 +14,7 @@ class demolish::world::Scenario
 private:
     float                   _timestep;
     int                     _numberOfIterations;
-    std::vector<Object*>    _objects;
+    std::vector<Object>    _objects;
     // add vec of manifolds 
 public:
     Scenario(  float        timestep,

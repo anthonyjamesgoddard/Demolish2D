@@ -91,8 +91,6 @@ void demolish::world::Object::fillSectors()
             _sectors[sectorIndex]._theta2)
     {
         finestLoD.push_back(&geometryVerts[vertexIndex]);
-        //below prints correct result!!!!!!!
-        finestLoD[vertexIndex]->displayProperties();
         vertexIndex++;
     }
     tempVec = finestLoD;
@@ -118,7 +116,7 @@ demolish::world::Object::Object(
     // calculates centroid
     _geometry.centreGeometry();
     // translates polygon s.t centroid is (0,0)
-    _geometry.calculatePolarWRTCentroid();      
+     _geometry.calculatePolarWRTCentroid();      
     // fills in the polar rep. of the vectors
     _convexHull = _geometry.convexHull();   
     // obtains the convex hull

@@ -37,7 +37,6 @@ void Polygon::calculateCentroid()
     float oneOverThree = 1.0f/3.0f;
     float areaComponent;
     Vertex origin(0,0);
-    std::cout << " the number of vertices" << _numberOfVertices << std::endl;
     for(int i=0;i<_numberOfVertices;++i)
     {
         //
@@ -51,13 +50,9 @@ void Polygon::calculateCentroid()
         Vertex vj = _vertices[j];
 
         areaComponent = 0.5*cross(origin,vi,vj);
-    
-        std::cout << "value of cross" << areaComponent << std::endl;
-
         areaOfPolygon+= areaComponent;
         centroid += (vi+vj)*areaComponent*oneOverThree;
     }
-    std::cout << "area:" << areaOfPolygon << std::endl;
     centroid  *= 1.0f/areaOfPolygon;
     _centroid  = {centroid.getX(),centroid.getY()};
     // we could do away with storing the centroid by
@@ -73,7 +68,7 @@ void Polygon::centreGeometry()
        v.set(v.getX()-std::get<0>(_centroid),
              v.getY()-std::get<1>(_centroid)); 
     }
-    _centroid = {0,0};
+    _centroid = {0.0f,0.0f};
 }
 
 Polygon::Polygon(
