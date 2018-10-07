@@ -1,3 +1,4 @@
+GLOBAL TODO's
 + This code is not memory efficient in any sence of the word.
     We have tried Using old C-style arrays which results in 
     really buggy code. We suggest to use smart pointers. 
@@ -15,3 +16,11 @@
         basic geometry for BCircle
         use SAT for CH
         use minimisation for non-convex geometry
+
+LOCAL:
+ -- get collision detection working for Bcircle and CH
+ -- add keyboard callback function that allows us to move
+    the object by a small ammount which will continuously
+    render a string to the screen letting the user know
+    if a collision has occurred. MOST IMP. is which "level"
+    of collision.
