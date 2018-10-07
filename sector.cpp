@@ -19,7 +19,7 @@ void demolish::world::Sector::displayContents()
        std::cout << "Layer " << i << " vertices" << std::endl;
        for(int j=0;j<tempSz;j++)
        {
-           _LoD[i][j]->displayProperties();
+           _LoD[i][j].displayProperties();
        }
    }
 }

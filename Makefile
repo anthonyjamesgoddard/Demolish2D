@@ -1,16 +1,15 @@
 all: source
 
-#For debugging
 OPT=-g -Wall
-#For optimistaion
-#OPT=-O
+
+LINKS= -lglut -lGL -lGLU
 
 #All objects (except main) come from cpp and hpp 
 %.o:	%.cpp %.hpp
 	g++ ${OPT} -c -o $@ $<
 #use_vectors relies on objects which rely on headers
 source:	source.cpp polygon.o object.o vertex.o sector.o scenario.o
-		g++ ${OPT} -o source source.cpp polygon.o object.o vertex.o sector.o scenario.o
+		g++ ${OPT} -o source source.cpp polygon.o object.o vertex.o sector.o scenario.o $(LINKS)
 
 clean:
 	rm -f *.o *~ source

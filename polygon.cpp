@@ -124,6 +124,10 @@ bool compTheta(Vertex a, Vertex b)
 }
 
 
+bool compRadius(Vertex a, Vertex b)
+{
+    return a.getRadius() > b.getRadius();
+}
 //
 
 
@@ -132,6 +136,10 @@ void Polygon::sortWRTTheta()
     std::sort(_vertices.begin(),_vertices.end(),compTheta);
 }
 
+void Polygon::sortWRTRadius()
+{
+    std::sort(_vertices.begin(),_vertices.end(),compRadius);
+}
 void Polygon::displayProperties()
 {
     for(auto & v : _vertices )

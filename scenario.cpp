@@ -2,6 +2,28 @@
 
 using demolish::world::Scenario;
 
+void Scenario::step()
+{
+   //
+   //   GENERATE NEW COLLISION DATA
+   //       
+   //       + First determine if bounding spheres collide.
+   //       + Use SAT for convex hull (like impulse)
+   //       + resort to penalty
+   //
+
+   // clear collision information 
+   
+
+   //
+   //   INTEGRATE FORCES
+   //
+   //
+   
+
+   // ... 
+}
+
 void Scenario::addObjectToScenario(Polygon&                geometry,
                             std::array<float,2>               position)
 {
@@ -9,13 +31,16 @@ void Scenario::addObjectToScenario(Polygon&                geometry,
     _objects.push_back(o);
 }
 
-std::vector<std::vector<Vertex>*> Scenario::getDrawables()
+void Scenario::addObjectToScenario(Object&                object)
+{
+    _objects.push_back(object);
+}
+
+void Scenario::render()
 {
     for(auto & o: _objects)
     {   
-        o.displayProperties();
+        o.draw();
     }
 
-    std::vector<std::vector<Vertex>*> v;
-    return v;
 }

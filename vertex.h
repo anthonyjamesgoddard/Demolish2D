@@ -36,6 +36,10 @@ public:
         return _theta;
     }
 
+    float getRadius()
+    {
+        return _r;
+    }
     float getX(){return _x;}
     float getY(){return _y;}
     void set(float x,float y){_x = x;_y=y;}

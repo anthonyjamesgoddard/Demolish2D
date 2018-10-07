@@ -17,7 +17,7 @@ class demolish::world::Sector
 {
 public:
     float _theta1,_theta2;
-    std::vector<std::vector<Vertex*>> _LoD;
+    std::vector<std::vector<Vertex>> _LoD;
 public:
     Sector(){};
     Sector(float theta1,float theta2)

@@ -22,11 +22,17 @@ public:
     : _timestep(timestep)
     , _numberOfIterations(numberOfIterations){}
 
+
+    void        step();
+
     void        addObjectToScenario(
                 Polygon&                geometry, 
                 std::array<float,2>     position);
 
-    std::vector<std::vector<Vertex>*> getDrawables();
+    void        addObjectToScenario(
+                Object&                 object);
+
+    void        render();
 };
 
 #endif

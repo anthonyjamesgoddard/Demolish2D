@@ -35,7 +35,7 @@ void demolish::world::Object::fillSectors()
     
     // ------- all but the last sector is filled here ---------------
 
-    std::vector<Vertex*> finestLoD;
+    std::vector<Vertex> finestLoD;
 
     float thetaHi   = _sectors[0]._theta2;
     float thetaLow  = _sectors[0]._theta1;
@@ -52,7 +52,7 @@ void demolish::world::Object::fillSectors()
                 vertexIndex++;
                 continue;
             }
-            finestLoD.push_back(&geometryVerts[vertexIndex]);
+            finestLoD.push_back(geometryVerts[vertexIndex]);
             vertexIndex++;
             if(vertexIndex ==  geometryVertsSz)
             {
@@ -79,7 +79,7 @@ void demolish::world::Object::fillSectors()
     vertexIndex--;sectorIndex++;    
     while(geometryVerts[vertexIndex].getTheta()<2*M_PI)
     {
-        finestLoD.push_back(&geometryVerts[vertexIndex]);
+        finestLoD.push_back(geometryVerts[vertexIndex]);
         vertexIndex++;
         if(vertexIndex = geometryVertsSz)
         {
@@ -90,7 +90,7 @@ void demolish::world::Object::fillSectors()
     while(geometryVerts[vertexIndex].getTheta()<=
             _sectors[sectorIndex]._theta2)
     {
-        finestLoD.push_back(&geometryVerts[vertexIndex]);
+        finestLoD.push_back(geometryVerts[vertexIndex]);
         vertexIndex++;
     }
     tempVec = finestLoD;
@@ -104,6 +104,14 @@ void demolish::world::Object::generateLoDs()
     {
         v.generateLoDs();
     }
+}
+
+void demolish::world::Object::calculateBoundingRadius()
+{
+    // sort the vertices w.r.t the radius 
+    _geometry.sortWRTRadius();
+    auto v = _geometry.getVertices();
+    _boundingRadius = v[0].getRadius();
 }
 
 demolish::world::Object::Object(
@@ -123,6 +131,7 @@ demolish::world::Object::Object(
     _convexHull.setCentroid(_geometry.getCentroid());
     // set the centroid of the convex hull to
     // the centroid of _geometry
+    calculateBoundingRadius();
     _geometry.sortWRTTheta();               
     _convexHull.sortWRTTheta();
     fillSectors();                              
@@ -186,5 +195,63 @@ void demolish::world::Object::calculateMaterialParameters(float density)
 
     _inertia = inertia*density;
     _invIntertia = _inertia ? 1.0f / _inertia : 0.0f;
+
+}
+
+#include"glut.h"
+void demolish::world::Object::draw()
+{
+    // draw the object
+    glColor3f(1,1,1);
+    auto verts = _geometry.getVertices();
+    glBegin(GL_LINE_LOOP);
+    for(int i=0;i<verts.size();i++)
+    {
+        glVertex2f(verts[i].getX() + std::get<0>(_location),
+                   verts[i].getY() + std::get<1>(_location));
+    }
+
+    // draw the convex hull
+    glEnd();
+    glColor3f(1,0,0);
+    verts = _convexHull.getVertices();
+    glBegin(GL_LINE_LOOP);
+    for(int i=0;i<verts.size();i++)
+    {
+        glVertex2f(verts[i].getX() + std::get<0>(_location),
+                   verts[i].getY() + std::get<1>(_location));
+    }
+    glEnd();
+
+    // draw the centroid 
+    // note that the entroid of the object is the 
+    // centroid of _geometry
+    glPointSize(3.0);
+    auto c =_geometry.getCentroid();
+    glColor3f(0,1,1);
+    glBegin(GL_POINTS);
+    glVertex2f(/*0**/std::get<0>(c) + std::get<0>(_location),
+               /*0**/std::get<1>(c) + std::get<1>(_location));
+    glEnd();
+
+
+    // draw the bounding radius
+    //
+    glColor3f(1,1,0);
+    glBegin(GL_LINE_LOOP);
+    float theta = 0;
+    float inc = M_PI * 2.0f / 50.0f;
+    for(int i=0;i<50;i++)
+    {
+
+        glVertex2f(std::get<0>(_location) + _boundingRadius*std::cos(theta),
+                   std::get<1>(_location) + _boundingRadius*std::sin(theta));
+        theta += inc;
+
+
+    }
+    glEnd();
+
+
 
 }

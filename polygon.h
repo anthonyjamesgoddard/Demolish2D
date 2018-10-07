@@ -36,6 +36,7 @@ public:
     void                    calculateCentroid();
     void                    centreGeometry();
     void                    sortWRTTheta();
+    void                    sortWRTRadius();
     void                    displayProperties();
     void                    calculatePolarWRTCentroid();
     ~Polygon();
