@@ -1,6 +1,7 @@
 #include<iostream>
 #include"scenario.h"
 #include"glut.h"
+#include"render.h"
 using namespace demolish;
 
 world::Scenario scenario(0.1,10);
@@ -18,6 +19,34 @@ void displayfunc(void)
 
     glutSwapBuffers();
 }
+
+// we are going to use this function to move one of the 
+// objects and make it "collide" with the other object.
+//
+
+void keyboard(unsigned char key, int x, int y)
+{
+  switch(key)
+  {
+  case 's':
+    scenario.manuallyMoveObject(0,0,-0.1);
+    glutPostRedisplay();
+    break;
+  case 'w':
+    scenario.manuallyMoveObject(0,0,0.1);
+    glutPostRedisplay();
+    break;
+  case 'd':
+    scenario.manuallyMoveObject(0,0.1,0);
+    glutPostRedisplay();
+    break;
+  case 'a':
+    scenario.manuallyMoveObject(0,-0.1,0);
+    glutPostRedisplay();
+    break;
+  }
+}
+
 
 int main(int argc, char** argv)
 {
@@ -100,7 +129,7 @@ int main(int argc, char** argv)
     glutInitWindowSize( 1024, 768 );
     glutCreateWindow( "demolish 1.0" );
     glutDisplayFunc(displayfunc);
-
+    glutKeyboardFunc(keyboard);
 
     glMatrixMode( GL_PROJECTION );
     glPushMatrix( );

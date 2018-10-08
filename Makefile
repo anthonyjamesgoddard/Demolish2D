@@ -8,8 +8,8 @@ LINKS= -lglut -lGL -lGLU
 %.o:	%.cpp %.hpp
 	g++ ${OPT} -c -o $@ $<
 #use_vectors relies on objects which rely on headers
-source:	source.cpp polygon.o object.o vertex.o sector.o scenario.o
-		g++ ${OPT} -o source source.cpp polygon.o object.o vertex.o sector.o scenario.o $(LINKS)
+source:	source.cpp polygon.o object.o vertex.o sector.o scenario.o render.o
+		g++ ${OPT} -o source source.cpp polygon.o object.o vertex.o sector.o scenario.o render.o $(LINKS)
 
 clean:
 	rm -f *.o *~ source

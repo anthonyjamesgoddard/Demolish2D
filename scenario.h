@@ -14,7 +14,7 @@ class demolish::world::Scenario
 private:
     float                   _timestep;
     int                     _numberOfIterations;
-    std::vector<Object>    _objects;
+    std::vector<Object>     _objects;
     // add vec of manifolds 
 public:
     Scenario(  float        timestep,
@@ -33,6 +33,12 @@ public:
                 Object&                 object);
 
     void        render();
+
+    // temp function for testing purposes
+    void manuallyMoveObject(int ObjectIndex, float x, float y)
+    {
+        _objects[ObjectIndex].manuallyMoveObject(x,y);
+    }
 };
 
 #endif

@@ -251,7 +251,20 @@ void demolish::world::Object::draw()
 
     }
     glEnd();
+}
 
+std::array<float,2> demolish::world::Object::getLocation()
+{
+    return _location;
+}
 
+float demolish::world::Object::getBoundingRadius()
+{
+    return _boundingRadius;
+}
 
+void demolish::world::Object::manuallyMoveObject(float x,float y)
+{
+    std::get<0>(_location) += x;
+    std::get<1>(_location) += y;
 }

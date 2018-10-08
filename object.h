@@ -51,5 +51,12 @@ public:
     void                            calculateMaterialParameters(float density);
     void                            calculateBoundingRadius();
     void                            draw();
+
+    std::array<float,2>             getLocation();
+    float                           getBoundingRadius();
+    // this is most likely going to be a temp function 
+    // that allows us to move the object manually.
+    void                            manuallyMoveObject(float x,float y);
+
 };
 #endif
