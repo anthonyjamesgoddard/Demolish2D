@@ -17,12 +17,30 @@ void displayfunc(void)
     glVertex2f(11,1);
     glEnd();
 
+    displayString( 0.2, 0.5, "WASD to move" );
+    auto isCollide = scenario.obtainPleniminaryCollisionData().size();
+    if(isCollide)
+    {
+        displayString(0.2,0.2,"bounding spheres have collided");
+    }
     glutSwapBuffers();
 }
 
 // we are going to use this function to move one of the 
 // objects and make it "collide" with the other object.
 //
+
+void physics(void)
+{
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
+    
+    scenario.step();
+
+    glutPostRedisplay();
+  
+}
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -114,15 +132,18 @@ int main(int argc, char** argv)
 
     std::array<float,2> locObj1 = {5,5};
     std::array<float,2> locObj2 = {3,8};
-     
+    std::array<float,2> locObj3 = {8,3};
+
     auto poly = geometry::Polygon(verts1);
     auto poly2= geometry::Polygon(verts2);
 
     auto obj1 = world::Object(poly,locObj1);
     auto obj2 = world::Object(poly2,locObj2);
+    auto obj3 = world::Object(poly2,locObj3);
 
     scenario.addObjectToScenario(obj1);
     scenario.addObjectToScenario(obj2);
+    scenario.addObjectToScenario(obj3);
 
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
@@ -130,6 +151,7 @@ int main(int argc, char** argv)
     glutCreateWindow( "demolish 1.0" );
     glutDisplayFunc(displayfunc);
     glutKeyboardFunc(keyboard);
+    glutIdleFunc(physics);
 
     glMatrixMode( GL_PROJECTION );
     glPushMatrix( );

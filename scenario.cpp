@@ -1,5 +1,5 @@
 #include"scenario.h"
-
+#include"render.h"
 using demolish::world::Scenario;
 
 void Scenario::step()
@@ -40,15 +40,18 @@ void Scenario::step()
            // collisioon.
            float DBLsquared = (std::get<0>(locationi)-std::get<0>(locationj))*(std::get<0>(locationi)-std::get<0>(locationj))
                         + (std::get<1>(locationi)-std::get<1>(locationj))*(std::get<1>(locationi)-std::get<1>(locationj));
-           if(DBLsquared<(ri+rj)*(ri+rj))
+           // note that we are giving our bounding spheres a little bit of slacjk
+           if(DBLsquared<=(ri+rj)*(ri+rj)+0.5)
            {
                pairwiseObjectCollisionIndexData.emplace_back(i,j);
-               std::cout << "colliusion" << std::endl;
            }
-
 
        }
    }
+    
+   _pleniminaryCollisionData = pairwiseObjectCollisionIndexData;
+
+
 
    //
    //   INTEGRATE FORCES

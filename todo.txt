@@ -18,9 +18,4 @@ GLOBAL TODO's
         use minimisation for non-convex geometry
 
 LOCAL:
- -- get collision detection working for Bcircle and CH
- -- add keyboard callback function that allows us to move
-    the object by a small ammount which will continuously
-    render a string to the screen letting the user know
-    if a collision has occurred. MOST IMP. is which "level"
-    of collision.
+ -- get collision detection working for CH SAT
