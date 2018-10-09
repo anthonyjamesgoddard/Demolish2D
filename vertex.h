@@ -25,12 +25,16 @@ public:
     Vertex&     operator= (const Vertex&v);
     bool        operator< (const Vertex&v) const;
     Vertex      operator+ (const Vertex&v) const; 
+    Vertex      operator- (const Vertex&v) const;
     Vertex      operator* (const float& a) const; 
+    float       operator* (const Vertex&v) const;
     Vertex&     operator+=(const Vertex&v);
     Vertex&     operator*=(const float& a);
     // member functions
     void        fillPolars();
-
+    Vertex      perpendicular();
+    float       norm();
+    void        normalise();
     float getTheta()
     {
         return _theta;

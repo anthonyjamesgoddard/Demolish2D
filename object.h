@@ -54,6 +54,11 @@ public:
 
     std::array<float,2>             getLocation();
     float                           getBoundingRadius();
+    std::vector<Vertex>             getConvexHullVertices();
+    std::vector<Vertex>             getVertices();
+    // operators
+    Object&                         operator=(const Object &o);
+
     // this is most likely going to be a temp function 
     // that allows us to move the object manually.
     void                            manuallyMoveObject(float x,float y);

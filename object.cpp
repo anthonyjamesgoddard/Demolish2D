@@ -263,6 +263,23 @@ float demolish::world::Object::getBoundingRadius()
     return _boundingRadius;
 }
 
+std::vector<Vertex> demolish::world::Object::getConvexHullVertices()
+{
+    return _convexHull.getVertices();
+}
+
+std::vector<Vertex> demolish::world::Object::getVertices()
+{
+    return _geometry.getVertices();
+}
+
+demolish::world::Object& demolish::world::Object::operator=(const demolish::world::Object&o)
+{
+    // considering this is only used to form a collison pair we 
+    // can "fill this in as we go along"
+    return *this;
+}
+
 void demolish::world::Object::manuallyMoveObject(float x,float y)
 {
     std::get<0>(_location) += x;

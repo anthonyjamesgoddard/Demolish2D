@@ -39,11 +39,23 @@ Vertex Vertex::operator+(const Vertex&v) const
     return w;
 }
 
+Vertex Vertex::operator-(const Vertex&v) const
+{
+    float X = _x - v._x, Y = _y - v._y;
+    Vertex w = Vertex(X,Y);
+    return w;
+}
+
 Vertex Vertex::operator*(const float&a) const
 {
     float X = _x*a, Y = _y*a;
     Vertex v = Vertex(X,Y);
     return v;
+}
+
+float Vertex::operator*(const Vertex&v) const
+{
+    return v._x*_x + v._y*_y;
 }
 
 Vertex& Vertex::operator+=(const Vertex&v)
@@ -69,3 +81,21 @@ void Vertex::fillPolars()
         _theta += 2*M_PI;
     }
 }
+
+Vertex Vertex::perpendicular()
+{
+    Vertex returnVec(_y,-_x);
+    return returnVec;
+}
+
+float Vertex::norm()
+{
+    return std::sqrt(_x*_x+_y*_y);
+}
+
+void Vertex::normalise()
+{
+    float norm = this->norm();
+    _x /= norm;_y/=norm;
+}
+
