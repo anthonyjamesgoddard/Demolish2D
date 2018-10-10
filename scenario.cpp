@@ -1,5 +1,7 @@
 #include"scenario.h"
 #include"render.h"
+#include"collisionpair.h"
+
 using demolish::world::Scenario;
 
 void Scenario::step()
@@ -20,10 +22,13 @@ void Scenario::step()
    //
 
   
-   // container of plemin collision data
+   // 
+   //       FIRST DETERMINE IF BOUNDING SPHERES COLLIDE
+   //
+
    std::vector<std::pair<int,int>> pairwiseObjectCollisionIndexData;
 
-   // 
+   
    float ri,rj;
    std::array<float,2> locationi, locationj;
    int numberOfObjects = _objects.size();
@@ -50,8 +55,32 @@ void Scenario::step()
    }
     
    _pleniminaryCollisionData = pairwiseObjectCollisionIndexData;
+   //
+   // ON THIS DATA WE APPLY THE SEPARATING AXES
+   //
 
+   for(auto & pair: pairwiseObjectCollisionIndexData)
+   {
+       auto A = _objects[pair.first].getConvexHullVertices();
+       auto B = _objects[pair.second].getConvexHullVertices();
+       auto SATAxes = demolish::world::obtainSATAxes(A,B);
 
+       std::cout << "there are " << SATAxes.size() << " axes to check" << std::endl;
+       // now we need to loop over the axes and obtain projections
+       for(auto&axis:SATAxes)
+       {
+
+            // project the shape onto the axis
+           auto projectionA = demolish::world::projectShapeOntoAxis(A,axis);
+           auto projectionB = demolish::world::projectShapeOntoAxis(B,axis);
+           //std::cout << "Projection A : " << std::endl;
+           //std::cout << projectionA.first << " " << projectionA.second << std::endl;
+           //std::cout << "Projection B : " << std::endl;
+           //std::cout << projectionB.first << " " << projectionB.second << std::endl;
+           if(demolish::world::overlap(projectionA,projectionB))
+               std::cout << "we have a rpojection" << std::endl;
+       }
+   }
 
    //
    //   INTEGRATE FORCES

@@ -16,20 +16,18 @@ using demolish::world::Object;
  * considering bounding spheres) we then have to decide if 
  * convex hulls of the geometry collide.
  *
- * After we have acheived this we can then. implement
- * a sector based approach.
- *
- * obtainSATAxes just returns the usual SAT axes.
- * projectShapeOntoAxis returns the min and max projections
- * the shape onto the axes
- *
  */
 namespace demolish{
     namespace world{
-        std::vector<Vertex>     obtainSATAxes(Object&a,
-                                              Object&b);
-        std::pair<float,float>  projectShapeOntoAxis(Polygon&poly,
+        // SAT helper functions
+        std::vector<Vertex>     obtainSATAxes(std::vector<Vertex>& convexHullVerticesOfObjectA,
+                                              std::vector<Vertex>& convexHullVerticesOfObjectB);
+
+        std::pair<float,float>  projectShapeOntoAxis(std::vector<Vertex>& polygonVertices,
                                                      Vertex& axis);
+
+        bool                    overlap(std::pair<float,float>& A,
+                                        std::pair<float,float>& B);
     }
 }
 

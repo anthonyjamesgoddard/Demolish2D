@@ -84,7 +84,7 @@ void Vertex::fillPolars()
 
 Vertex Vertex::perpendicular()
 {
-    Vertex returnVec(_y,-_x);
+    Vertex returnVec(-_y,_x);
     return returnVec;
 }
 

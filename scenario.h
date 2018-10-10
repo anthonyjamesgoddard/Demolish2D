@@ -34,12 +34,12 @@ public:
                 Object&                 object);
 
     void        render();
-
+    // temp function for testing purposes
+    //
     std::vector<std::pair<int,int>> obtainPleniminaryCollisionData()
     {
         return _pleniminaryCollisionData;
     }
-    // temp function for testing purposes
     void manuallyMoveObject(int ObjectIndex, float x, float y)
     {
         _objects[ObjectIndex].manuallyMoveObject(x,y);
