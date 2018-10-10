@@ -1,21 +1,12 @@
-GLOBAL TODO's
-+ This code is not memory efficient in any sence of the word.
-    We have tried Using old C-style arrays which results in 
-    really buggy code. We suggest to use smart pointers. 
-    This will not only make the code more memory efficient but also safer
+We need to think about what we do when the convex hull
+has been breached. 
 
-+ Another deliberately poor choice we are going
-    to make for the prototype code is that we want 
-    the visualisation to be integrated to the software.
-    This is NOT going to be desirable for the final
-    product. But quick and dirty visual aids will aid
-    us significantly in construcing (and debugging)
-    the workflow.
+We already have the sectors in place but have no easy way 
+to correlate breached edges (at collision time) with
+the sectors represented by the edge that has been breached.
 
-+ proposal for collision detection:
-        basic geometry for BCircle
-        use SAT for CH
-        use minimisation for non-convex geometry
+- redesign?
+    - Create sectors on the fly?
+    - ...
 
-LOCAL:
- -- get collision detection working for CH SAT
+
