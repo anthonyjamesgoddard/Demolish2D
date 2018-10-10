@@ -268,11 +268,35 @@ std::vector<Vertex> demolish::world::Object::getConvexHullVertices()
     return _convexHull.getVertices();
 }
 
+
 std::vector<Vertex> demolish::world::Object::getVertices()
 {
     return _geometry.getVertices();
 }
 
+std::vector<Vertex> demolish::world::Object::getWorldVertices()
+{
+    auto verts = this->getVertices();
+    Vertex loc(std::get<0>(_location),std::get<1>(_location));
+    for(auto&v:verts)
+    {
+        v+=loc;
+    }
+    return verts;
+}
+
+
+std::vector<Vertex> demolish::world::Object::getWorldConvexHullVertices()
+{
+    auto verts = this->getConvexHullVertices();
+    Vertex loc(std::get<0>(_location),std::get<1>(_location));
+    for(auto&v:verts)
+    {
+        v+=loc;
+    }
+    return verts;
+
+}
 demolish::world::Object& demolish::world::Object::operator=(const demolish::world::Object&o)
 {
     // considering this is only used to form a collison pair we 

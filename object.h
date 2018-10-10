@@ -56,6 +56,12 @@ public:
     float                           getBoundingRadius();
     std::vector<Vertex>             getConvexHullVertices();
     std::vector<Vertex>             getVertices();
+
+    //these operators will return the translated vertices.
+    // these are the methods that we will need for collision detecton
+    std::vector<Vertex>             getWorldVertices();
+    std::vector<Vertex>             getWorldConvexHullVertices();
+
     // operators
     Object&                         operator=(const Object &o);
 

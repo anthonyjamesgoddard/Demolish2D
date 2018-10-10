@@ -21,7 +21,7 @@ void displayfunc(void)
     auto isCollide = scenario.obtainPleniminaryCollisionData().size();
     if(isCollide)
     {
-        displayString(0.2,0.2,"bounding spheres have collided");
+        displayString(0.2,0.2,"convexHullBreached");
     }
     glutSwapBuffers();
 }

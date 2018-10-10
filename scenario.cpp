@@ -6,7 +6,7 @@ using demolish::world::Scenario;
 
 void Scenario::step()
 {
-
+    
    //   DELETE OLD COLLISION DATA
    //       + how do we store our collison data?
    //           We generate pairs of object index data
@@ -53,19 +53,21 @@ void Scenario::step()
 
        }
    }
-    
-   _pleniminaryCollisionData = pairwiseObjectCollisionIndexData;
+   
+   _pleniminaryCollisionData.clear();
+
    //
    // ON THIS DATA WE APPLY THE SEPARATING AXES
    //
-
+    
    for(auto & pair: pairwiseObjectCollisionIndexData)
    {
-       auto A = _objects[pair.first].getConvexHullVertices();
-       auto B = _objects[pair.second].getConvexHullVertices();
+       auto A = _objects[pair.first].getWorldConvexHullVertices();
+       auto B = _objects[pair.second].getWorldConvexHullVertices();
        auto SATAxes = demolish::world::obtainSATAxes(A,B);
-
-       std::cout << "there are " << SATAxes.size() << " axes to check" << std::endl;
+       
+       bool CHbreach = true;
+       
        // now we need to loop over the axes and obtain projections
        for(auto&axis:SATAxes)
        {
@@ -77,10 +79,20 @@ void Scenario::step()
            //std::cout << projectionA.first << " " << projectionA.second << std::endl;
            //std::cout << "Projection B : " << std::endl;
            //std::cout << projectionB.first << " " << projectionB.second << std::endl;
-           if(demolish::world::overlap(projectionA,projectionB))
-               std::cout << "we have a rpojection" << std::endl;
+           if(!demolish::world::overlap(projectionA,projectionB))
+           {
+               CHbreach = false;
+               break;
+           }
+       }
+       if(CHbreach == true)
+       {
+            _pleniminaryCollisionData.push_back(pair);
        }
    }
+    
+   // 
+
 
    //
    //   INTEGRATE FORCES
