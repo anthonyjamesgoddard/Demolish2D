@@ -59,3 +59,13 @@ bool demolish::world::overlap(std::pair<float,float> &A,
     return ((A.first <= B.second) && (B.first<=A.second));
 }
 
+std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Vertex&A,
+                                                                           Vertex&B,
+                                                                           Vertex&C,
+                                                                           Vertex&D,
+                                                                           float eps,
+                                                                           float tol)
+{
+    return std::make_pair(1.0,1.0);
+}
+

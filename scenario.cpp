@@ -90,9 +90,11 @@ void Scenario::step()
    // At this stage we now have to apply contact detection to all edges 
    
    //
-   //   CALCULATE MINIMUM BETWEEN ALL EDGES?!
+   //   implement matrix class (basic one) in C++
+   //       - how are we going to carry out that solve?
    //
-   //
+   //   we loop through all the edges and calculate the minimum distance
+   //   if it less that some tolerance we say that we have colllided
 
    //
    //   INTEGRATE FORCES

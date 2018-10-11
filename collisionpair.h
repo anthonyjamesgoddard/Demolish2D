@@ -28,6 +28,14 @@ namespace demolish{
 
         bool                    overlap(std::pair<float,float>& A,
                                         std::pair<float,float>& B);
+
+        // penalty helper functions
+        std::pair<float,float>  minimumDistanceBetweenLineSegments(Vertex& A,
+                                                                   Vertex& B,
+                                                                   Vertex& C,
+                                                                   Vertex& D,
+                                                                   float   eps,
+                                                                   float   tol);
     }
 }
 

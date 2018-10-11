@@ -274,6 +274,10 @@ std::vector<Vertex> demolish::world::Object::getVertices()
     return _geometry.getVertices();
 }
 
+// the next two functions will need to be updated when we
+// finally implement the physics!!!
+
+
 std::vector<Vertex> demolish::world::Object::getWorldVertices()
 {
     auto verts = this->getVertices();

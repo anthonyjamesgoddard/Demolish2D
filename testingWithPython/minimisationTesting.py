@@ -24,42 +24,38 @@ as
 '''
 
 def minimiseDistanceBetweenLineSegments(A,B,C,D,epsilon,tol):
-    BA = B-A
+    AB = B-A
     CD = D-C
-    hf = np.array([[2*np.dot(BA,BA),-2*np.dot(BA,CD)],
-                   [-2*np.dot(BA,CD), 2*np.dot(CD,CD)]])
+    hf = np.array([[2*np.dot(AB,AB),-2*np.dot(AB,CD)],
+                   [-2*np.dot(AB,CD), 2*np.dot(CD,CD)]])
     x = [0.33,0.1]
     for i in range(100):
-        X = A + BA*x[0]
-        Y = C + CD*x[1]
-        gf = np.array([2*np.dot((X-Y),BA),-2*np.dot((X-Y),CD)])
-        h = np.array([-x[0],x[0]-1,-x[1],x[1]-1])
-        dh = np.array([[-1,1,0,0],[0,0,-1,1]])
+        gf = np.array([-2*np.dot(CD,AB)*x[1] + 2*x[0]*np.dot(AB,AB),
+                       -2*np.dot(CD,AB)*x[0] + 2*x[1]*np.dot(CD,CD)])
+        h = np.array([-x[0],-x[1],x[0]-1,x[1]-1])
+        dh = np.array([[-1,0,1,0],[0,-1,0,1]])
         mask = (h>=0).astype('int')
         dmax = dh*np.vstack([mask,mask])
         grad = gf + eps*np.dot(dmax,np.maximum(np.zeros(4),h))
-        hes = hf + eps*np.matmul(dmax,dmax.transpose()) + np.eye(2)/(eps **2)
+        hes = hf + eps*np.matmul(dmax,dmax.transpose()) + np.eye(2)/(eps * eps)
         dx = np.linalg.solve(hes,grad);
-        DX = np.dot(BA,dx[0])
+        DX = np.dot(AB,dx[0])
         DY = np.dot(CD,dx[1])
         error = np.sqrt(np.dot(DX,DX) + np.dot(DY,DY))
+        x = x-dx
+        print x
         if(error<tol):
             break
-        x = x-dx
     return x
 
 A = np.array([1,2])
-B = np.array([3,4])
-C = np.array([10,12])
-D = np.array([15,15])
+B = np.array([2,4])
+C = np.array([3,2])
+D = np.array([3,4])
 
-eps = 0.01;tol = 0.001
+eps = 0.001;tol = 0.0001
 
 print(minimiseDistanceBetweenLineSegments(A,B,C,D,eps,tol))
-
-# there is something wrong with this code. It prints the wrong answer 
-
-
 
 
 
