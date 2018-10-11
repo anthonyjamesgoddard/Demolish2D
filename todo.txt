@@ -9,4 +9,10 @@ the sectors represented by the edge that has been breached.
     - Create sectors on the fly?
     - ...
 
-
+- do away with the sector idea?
+    - what instead?
+    - we could temp. do away with sector idea
+        and consider a triple level
+        + bounding circle
+        + convex hull
+        + actual (local) geometry

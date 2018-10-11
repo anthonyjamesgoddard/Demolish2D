@@ -75,10 +75,6 @@ void Scenario::step()
             // project the shape onto the axis
            auto projectionA = demolish::world::projectShapeOntoAxis(A,axis);
            auto projectionB = demolish::world::projectShapeOntoAxis(B,axis);
-           //std::cout << "Projection A : " << std::endl;
-           //std::cout << projectionA.first << " " << projectionA.second << std::endl;
-           //std::cout << "Projection B : " << std::endl;
-           //std::cout << projectionB.first << " " << projectionB.second << std::endl;
            if(!demolish::world::overlap(projectionA,projectionB))
            {
                CHbreach = false;
@@ -91,8 +87,12 @@ void Scenario::step()
        }
    }
     
-   // 
-
+   // At this stage we now have to apply contact detection to all edges 
+   
+   //
+   //   CALCULATE MINIMUM BETWEEN ALL EDGES?!
+   //
+   //
 
    //
    //   INTEGRATE FORCES
