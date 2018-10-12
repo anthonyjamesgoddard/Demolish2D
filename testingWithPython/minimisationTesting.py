@@ -40,8 +40,8 @@ def minimiseDistanceBetweenLineSegments(A,B,C,D,epsilon,tol):
         grad  = gf + r*np.dot(dmax,np.maximum(np.zeros(4),h))
         hes   = hf + r*np.matmul(dmax,dmax.transpose()) + np.eye(2)/(r * r)
         dx    = np.linalg.solve(hes,grad);
-        DX    = np.dot(AB,dx[0])
-        DY    = np.dot(CD,dx[1])
+        DX    = AB*dx[0]
+        DY    = CD*dx[1]
         error = np.sqrt(np.dot(DX,DX) + np.dot(DY,DY))
         x     = x-dx
         if(error<tol):

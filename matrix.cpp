@@ -30,6 +30,16 @@ Matrix2x2 Matrix2x2::operator*(const Matrix2x2&m) const
     return Matrix2x2(res11,res12,res21,res22);
 }
 
+Matrix2x2 Matrix2x2::operator*(const float& a) const
+{
+    float res11,res12,res21,res22;
+    res11 = _a11*a;
+    res21 = _a21*a; 
+    res12 = _a11*a;
+    res22 = _a21*a;
+    return Matrix2x2(res11,res12,res21,res22);
+}
+
 Matrix2x2 Matrix2x2::operator+(const Matrix2x2&m) const
 {
     float res11,res12,res21,res22;
@@ -38,4 +48,12 @@ Matrix2x2 Matrix2x2::operator+(const Matrix2x2&m) const
     res21 = _a21 + m._a21;
     res22 = _a22 + m._a22;
     return Matrix2x2(res11,res12,res21,res22);
+}
+
+Vertex Matrix2x2::solve(Vertex& RHS)
+{
+    // calculate the inverse 
+    float det = _a11*_a22 - _a12*_a21;
+    Matrix2x2 inv(_a22,-1*_a12,-1*_a21,_a11);
+    return inv*RHS*(1.0/det);
 }

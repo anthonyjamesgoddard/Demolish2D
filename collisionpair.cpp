@@ -1,4 +1,5 @@
 #include"collisionpair.h"
+#include<cmath>
 using demolish::linearalgebra::Matrix2x2;
 
 std::vector<Vertex>  demolish::world::obtainSATAxes(std::vector<Vertex>& convexHullVerticesOfObjectA,
@@ -113,11 +114,12 @@ std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Verte
     Vertex AB = B-A;
     Vertex CD = D-C;
     Vertex CA = A-C;
-    Matrix2x2 hessian(AB*AB*2,AB*CD*-2,AB*CD*-2,CD*CD*2);
+    Matrix2x2 I(1,0,0,1);
+    Matrix2x2 hf(AB*AB*2,AB*CD*-2,AB*CD*-2,CD*CD*2);
     Vertex x(0.333,0.333);
     for(int i=0;i<10;i++)
     {
-        Vertex gradient(CD*AB*-2*x.getY() + AB*AB*2*x.getX() + CA*AB*2,
+        Vertex gf(CD*AB*-2*x.getY() + AB*AB*2*x.getX() + CA*AB*2,
                         CD*AB*-2*x.getX() + CD*CD*2*x.getY() - CA*CD*2);
         // constraints
         std::array<float,4>  h = {-x.getX(),
@@ -152,8 +154,22 @@ std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Verte
 
         
         auto tempGradComponent = matrixVectorMultiplication2x4(dmax,htemp); 
+    
+        auto grad = gf + matrixVectorMultiplication2x4(dmax,htemp)*r;
 
+        auto hes  = hf + grammianOf(dmax)*r + I*(1.0/(r*r));
+
+        auto dx = hes.solve(grad);
+
+        auto DX     = AB*dx.getX();
+        auto DY     = CD*dx.getY();
+        float error = std::sqrt(DX*DX+DY*DY); // we can do awawy with this
+        x = x-dx;
+        if(error<tol)
+        {
+            break;
+        }
     }
-
+    return std::make_pair(x.getX(),x.getY());
 }
 

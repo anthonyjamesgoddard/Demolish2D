@@ -96,6 +96,9 @@ void Scenario::step()
    //   we loop through all the edges and calculate the minimum distance
    //   if it less that some tolerance we say that we have colllided
 
+
+   
+
    //
    //   INTEGRATE FORCES
    //

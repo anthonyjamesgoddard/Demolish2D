@@ -22,7 +22,9 @@ public:
               float a22);
     Vertex      operator*( const Vertex&   v) const;
     Matrix2x2   operator*( const Matrix2x2&m) const;
+    Matrix2x2   operator*( const float    &a) const;
     Matrix2x2   operator+( const Matrix2x2&m) const;
+    Vertex      solve(Vertex& RHS);
 };
 
 #endif
