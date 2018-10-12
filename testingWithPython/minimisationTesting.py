@@ -26,12 +26,13 @@ as
 def minimiseDistanceBetweenLineSegments(A,B,C,D,epsilon,tol):
     AB = B-A
     CD = D-C
+    CA = A-C
     hf = np.array([[2*np.dot(AB,AB),-2*np.dot(AB,CD)],
                    [-2*np.dot(AB,CD), 2*np.dot(CD,CD)]])
-    x = [0.5,0.5]
-    for i in range(100):
-        gf = np.array([-2*np.dot(CD,AB)*x[1] + 2*x[0]*np.dot(AB,AB),
-                       -2*np.dot(CD,AB)*x[0] + 2*x[1]*np.dot(CD,CD)])
+    x = [0.33,0.33] 
+    for i in range(10):
+        gf = np.array([-2*np.dot(CD,AB)*x[1] + 2*x[0]*np.dot(AB,AB) + 2*np.dot(CA,AB),
+                       -2*np.dot(CD,AB)*x[0] + 2*x[1]*np.dot(CD,CD) - 2*np.dot(CA,CD)])
         h = np.array([-x[0],-x[1],x[0]-1,x[1]-1])
         dh = np.array([[-1,0,1,0],[0,-1,0,1]])
         mask = (h>=0).astype('int') 
@@ -50,10 +51,10 @@ def minimiseDistanceBetweenLineSegments(A,B,C,D,epsilon,tol):
 
 A = np.array([0,0])
 B = np.array([1,1])
-C = np.array([3,7])
-D = np.array([3,4])
+C = np.array([3,0])
+D = np.array([2,1])
 
-eps = 0.01;tol = 0.001
+eps = 0.001;tol = 0.001
 
 print(minimiseDistanceBetweenLineSegments(A,B,C,D,eps,tol))
 
