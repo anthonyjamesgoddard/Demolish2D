@@ -1,4 +1,5 @@
 #include"collisionpair.h"
+using demolish::linearalgebra::Matrix2x2;
 
 std::vector<Vertex>  demolish::world::obtainSATAxes(std::vector<Vertex>& convexHullVerticesOfObjectA,
                                    std::vector<Vertex>& convexHullVerticesOfObjectB)
@@ -59,23 +60,65 @@ bool demolish::world::overlap(std::pair<float,float> &A,
     return ((A.first <= B.second) && (B.first<=A.second));
 }
 
-using demolish::linearalgebra::Matrix2x2;
+
+Vertex matrixVectorMultiplication2x4(std::array<float,8> mat,
+                                     std::array<float,4> vec)
+{
+    float X,Y;
+    X = std::get<0>(mat)*std::get<0>(vec)+
+        std::get<1>(mat)*std::get<1>(vec)+
+        std::get<2>(mat)*std::get<2>(vec)+
+        std::get<3>(mat)*std::get<3>(vec);
+
+    Y = std::get<4>(mat)*std::get<0>(vec)+
+        std::get<5>(mat)*std::get<1>(vec)+
+        std::get<6>(mat)*std::get<2>(vec)+
+        std::get<7>(mat)*std::get<3>(vec); 
+   return Vertex(X,Y);
+}
+
+
+Matrix2x2 grammianOf(std::array<float,8> mat)
+{
+    float a11,a12,a21,a22;
+    a11 = std::get<0>(mat)*std::get<0>(mat)+
+          std::get<1>(mat)*std::get<1>(mat)+
+          std::get<2>(mat)*std::get<2>(mat)+
+          std::get<3>(mat)*std::get<3>(mat);
+
+    a21 = std::get<0>(mat)*std::get<4>(mat)+
+          std::get<1>(mat)*std::get<5>(mat)+
+          std::get<2>(mat)*std::get<6>(mat)+
+          std::get<3>(mat)*std::get<7>(mat);
+
+    a12 = std::get<4>(mat)*std::get<0>(mat)+
+          std::get<5>(mat)*std::get<1>(mat)+
+          std::get<6>(mat)*std::get<2>(mat)+
+          std::get<7>(mat)*std::get<3>(mat);
+
+    a22 = std::get<4>(mat)*std::get<4>(mat)+
+          std::get<5>(mat)*std::get<5>(mat)+
+          std::get<6>(mat)*std::get<6>(mat)+
+          std::get<7>(mat)*std::get<7>(mat);
+    return Matrix2x2(a11,a21,a12,a22);
+}
 
 std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Vertex&A,
                                                                            Vertex&B,
                                                                            Vertex&C,
                                                                            Vertex&D,
-                                                                           float eps,
+                                                                           float r,
                                                                            float tol)
 {
     Vertex AB = B-A;
     Vertex CD = D-C;
+    Vertex CA = A-C;
     Matrix2x2 hessian(AB*AB*2,AB*CD*-2,AB*CD*-2,CD*CD*2);
     Vertex x(0.333,0.333);
     for(int i=0;i<10;i++)
     {
-        Vertex gradient(CD*AB*-2*x.getY() + AB*AB*2*x.getX(),
-                        CD*AB*-2*x.getX() + CD*CD*2*x.getY());
+        Vertex gradient(CD*AB*-2*x.getY() + AB*AB*2*x.getX() + CA*AB*2,
+                        CD*AB*-2*x.getX() + CD*CD*2*x.getY() - CA*CD*2);
         // constraints
         std::array<float,4>  h = {-x.getX(),
                                   -x.getY(),
@@ -87,12 +130,28 @@ std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Verte
 
         // obtain mask 
         std::array<float,4> mask;
-        std::get<0>(mask) = (std::get<0>(h) < 0) ? 0 : std::get<0>(h) ; 
-        std::get<1>(mask) = (std::get<1>(h) < 0) ? 0 : std::get<1>(h) ;
-        std::get<2>(mask) = (std::get<2>(h) < 0) ? 0 : std::get<2>(h) ;
-        std::get<3>(mask) = (std::get<3>(h) < 0) ? 0 : std::get<3>(h) ;
+        std::get<0>(mask) = (std::get<0>(h) < 0) ? 0 : 1 ; 
+        std::get<1>(mask) = (std::get<1>(h) < 0) ? 0 : 1 ;
+        std::get<2>(mask) = (std::get<2>(h) < 0) ? 0 : 1 ;
+        std::get<3>(mask) = (std::get<3>(h) < 0) ? 0 : 1 ;
 
-        std::array<float,8> dmax = {};
+        std::array<float,4> htemp;
+        std::get<0>(htemp) = (std::get<0>(h) < 0) ? 0 : std::get<0>(h)  ; 
+        std::get<1>(htemp) = (std::get<1>(h) < 0) ? 0 : std::get<0>(h)  ;
+        std::get<2>(htemp) = (std::get<2>(h) < 0) ? 0 : std::get<0>(h)  ;
+        std::get<3>(htemp) = (std::get<3>(h) < 0) ? 0 : std::get<0>(h)  ;
+
+        std::array<float,8> dmax = {std::get<0>(mask)*std::get<0>(dh),
+                                    std::get<1>(mask)*std::get<1>(dh),
+                                    std::get<2>(mask)*std::get<2>(dh),
+                                    std::get<3>(mask)*std::get<3>(dh),
+                                    std::get<0>(mask)*std::get<0>(dh),
+                                    std::get<1>(mask)*std::get<1>(dh),
+                                    std::get<2>(mask)*std::get<2>(dh),
+                                    std::get<3>(mask)*std::get<3>(dh)};
+
+        
+        auto tempGradComponent = matrixVectorMultiplication2x4(dmax,htemp); 
 
     }
 

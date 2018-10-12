@@ -34,7 +34,7 @@ namespace demolish{
                                                                    Vertex& B,
                                                                    Vertex& C,
                                                                    Vertex& D,
-                                                                   float   eps,
+                                                                   float   r,
                                                                    float   tol);
     }
 }
