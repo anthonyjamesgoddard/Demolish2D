@@ -59,6 +59,8 @@ bool demolish::world::overlap(std::pair<float,float> &A,
     return ((A.first <= B.second) && (B.first<=A.second));
 }
 
+using demolish::linearalgebra::Matrix2x2;
+
 std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Vertex&A,
                                                                            Vertex&B,
                                                                            Vertex&C,
@@ -66,6 +68,33 @@ std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Verte
                                                                            float eps,
                                                                            float tol)
 {
-    return std::make_pair(1.0,1.0);
+    Vertex AB = B-A;
+    Vertex CD = D-C;
+    Matrix2x2 hessian(AB*AB*2,AB*CD*-2,AB*CD*-2,CD*CD*2);
+    Vertex x(0.333,0.333);
+    for(int i=0;i<10;i++)
+    {
+        Vertex gradient(CD*AB*-2*x.getY() + AB*AB*2*x.getX(),
+                        CD*AB*-2*x.getX() + CD*CD*2*x.getY());
+        // constraints
+        std::array<float,4>  h = {-x.getX(),
+                                  -x.getY(),
+                                   x.getX()-1,
+                                   x.getY()-1};
+
+        std::array<float,8> dh = {-1,0,1,0,
+                                   0,-1,0,1};
+
+        // obtain mask 
+        std::array<float,4> mask;
+        std::get<0>(mask) = (std::get<0>(h) < 0) ? 0 : std::get<0>(h) ; 
+        std::get<1>(mask) = (std::get<1>(h) < 0) ? 0 : std::get<1>(h) ;
+        std::get<2>(mask) = (std::get<2>(h) < 0) ? 0 : std::get<2>(h) ;
+        std::get<3>(mask) = (std::get<3>(h) < 0) ? 0 : std::get<3>(h) ;
+
+        std::array<float,8> dmax = {};
+
+    }
+
 }
 

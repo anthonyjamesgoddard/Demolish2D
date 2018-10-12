@@ -4,7 +4,7 @@
 #include<vector>
 #include"vertex.h"
 #include"object.h"
-
+#include"matrix.h"
 using demolish::geometry::Vertex;
 using demolish::world::Object;
 

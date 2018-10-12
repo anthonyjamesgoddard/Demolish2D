@@ -1,18 +1,5 @@
-We need to think about what we do when the convex hull
-has been breached. 
+just code things up by tuesday. 
 
-We already have the sectors in place but have no easy way 
-to correlate breached edges (at collision time) with
-the sectors represented by the edge that has been breached.
+Basic penalty method
 
-- redesign?
-    - Create sectors on the fly?
-    - ...
-
-- do away with the sector idea?
-    - what instead?
-    - we could temp. do away with sector idea
-        and consider a triple level
-        + bounding circle
-        + convex hull
-        + actual (local) geometry
+Start on physics

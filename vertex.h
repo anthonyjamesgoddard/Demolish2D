@@ -44,9 +44,11 @@ public:
     {
         return _r;
     }
-    float getX(){return _x;}
-    float getY(){return _y;}
-    void set(float x,float y){_x = x;_y=y;}
+    float       getX() const {return _x;}
+    float       getY() const {return _y;}
+    void        setX(float x) {_x = x;}
+    void        setY(float y) {_y = y;}
+    void        set(float x,float y){_x = x;_y=y;}
 
     void displayProperties()
     {
