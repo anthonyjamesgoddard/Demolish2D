@@ -2,6 +2,8 @@
 #include"scenario.h"
 #include"glut.h"
 #include"render.h"
+#include"matrix.h"
+
 using namespace demolish;
 
 world::Scenario scenario(0.1,10);
@@ -22,6 +24,15 @@ void displayfunc(void)
     if(isCollide)
     {
         displayString(0.2,0.2,"convexHullBreached");
+    }
+    auto cpsvec = scenario.obtainCollisionPoints();
+    for(auto&cps:cpsvec)
+    { 
+        glColor3f(1,0.5,0.5);
+        glPointSize(5.0);
+        glBegin(GL_POINTS);
+        glVertex2f(cps.getX(),cps.getY());
+        glEnd();
     }
     glutSwapBuffers();
 }
@@ -160,6 +171,7 @@ int main(int argc, char** argv)
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );
+
 
     glutMainLoop( );
 

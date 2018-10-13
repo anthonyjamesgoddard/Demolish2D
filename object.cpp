@@ -213,6 +213,8 @@ void demolish::world::Object::draw()
 
     // draw the convex hull
     glEnd();
+
+    /*
     glColor3f(1,0,0);
     verts = _convexHull.getVertices();
     glBegin(GL_LINE_LOOP);
@@ -222,7 +224,7 @@ void demolish::world::Object::draw()
                    verts[i].getY() + std::get<1>(_location));
     }
     glEnd();
-
+*/
     // draw the centroid 
     // note that the entroid of the object is the 
     // centroid of _geometry
@@ -237,6 +239,7 @@ void demolish::world::Object::draw()
 
     // draw the bounding radius
     //
+    /*
     glColor3f(1,1,0);
     glBegin(GL_LINE_LOOP);
     float theta = 0;
@@ -251,6 +254,7 @@ void demolish::world::Object::draw()
 
     }
     glEnd();
+    */
 }
 
 std::array<float,2> demolish::world::Object::getLocation()

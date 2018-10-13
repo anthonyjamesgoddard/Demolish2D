@@ -12,10 +12,11 @@ namespace demolish{
 class demolish::world::Scenario
 {
 private:
-    float                           _timestep;
-    int                             _numberOfIterations;
-    std::vector<Object>             _objects;
-    std::vector<std::pair<int,int>> _pleniminaryCollisionData;
+    float                               _timestep;
+    int                                 _numberOfIterations;
+    std::vector<Object>                 _objects;
+    std::vector<std::pair<int,int>>     _pleniminaryCollisionData;
+    std::vector<Vertex> _collisonPoints;
     // add vec of manifolds 
 public:
     Scenario(  float        timestep,
@@ -34,12 +35,20 @@ public:
                 Object&                 object);
 
     void        render();
+
+
+    std::vector<Vertex> obtainCollisionPoints()
+    {
+        return _collisonPoints;
+    }
+
     // temp function for testing purposes
     //
     std::vector<std::pair<int,int>> obtainPleniminaryCollisionData()
     {
         return _pleniminaryCollisionData;
     }
+
     void manuallyMoveObject(int ObjectIndex, float x, float y)
     {
         _objects[ObjectIndex].manuallyMoveObject(x,y);

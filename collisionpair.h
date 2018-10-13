@@ -36,6 +36,16 @@ namespace demolish{
                                                                    Vertex& D,
                                                                    float   r,
                                                                    float   tol);
+
+        std::pair<Vertex,Vertex> verticesOnLineSegments(Vertex&a,
+                                                    Vertex&b,
+                                                    Vertex&c,
+                                                    Vertex&d,
+                                                    std::pair<float,float> minparams);
+
+
+        float calculateDistanceBetweenVertices(std::pair<Vertex,Vertex> vertexpair);
+
     }
 }
 

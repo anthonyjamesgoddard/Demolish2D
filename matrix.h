@@ -25,6 +25,14 @@ public:
     Matrix2x2   operator*( const float    &a) const;
     Matrix2x2   operator+( const Matrix2x2&m) const;
     Vertex      solve(Vertex& RHS);
+    void        print()
+    {
+          std::cout << _a11 << " " << _a12 << std::endl;
+    std::cout << _a21 << " " << _a22 << std::endl;
+
+    std::cout << std::endl;
+
+    }
 };
 
 #endif

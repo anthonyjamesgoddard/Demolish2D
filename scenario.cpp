@@ -96,7 +96,32 @@ void Scenario::step()
    //   we loop through all the edges and calculate the minimum distance
    //   if it less that some tolerance we say that we have colllided
 
+    
+   for(auto & pair: pairwiseObjectCollisionIndexData)
+   {
+       auto A = _objects[pair.first].getWorldVertices();
+       auto B = _objects[pair.second].getWorldVertices();
+       // for each line segment in A and each line segment in B
+       // we calculate the minimum distance between line segments
+       for(int i=0;i< A.size();i++)
+       {
+           auto pi1  = A[i];
+           auto pi2  = A[i+1 == A.size() ? 0 : i+1];
+           for(int j=0;j< B.size();j++)
+           {
+                auto pj1  = B[j];
+                auto pj2  = B[j+1 == B.size() ? 0 : j+1];
+                auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
+                auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
+                float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
+                if(distance<0.01)
+                {
+                    _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
+                }
 
+           }
+       }
+   }
    
 
    //
