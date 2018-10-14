@@ -19,11 +19,18 @@ void displayfunc(void)
     glVertex2f(11,1);
     glEnd();
 
-    displayString( 0.2, 0.5, "WASD to move" );
-    auto isCollide = scenario.obtainPleniminaryCollisionData().size();
-    if(isCollide)
+    displayString( 0.2, 0.1, "WASD to move" );
+    if(scenario.breachedSpheres())
     {
-        displayString(0.2,0.2,"convexHullBreached");
+        displayString(0.2,0.3,"Sphere Breached");
+    }
+    if(scenario.breachedHulls())
+    {
+        displayString(0.2,0.5,"Convex Hull Breached");
+    }
+    if(scenario.hasCollision())
+    {
+        displayString(3,0.1,"Collision!!!!!!!!!!!!!!!!!!!");
     }
     auto cpsvec = scenario.obtainCollisionPoints();
     for(auto&cps:cpsvec)
@@ -32,6 +39,25 @@ void displayfunc(void)
         glPointSize(5.0);
         glBegin(GL_POINTS);
         glVertex2f(cps.getX(),cps.getY());
+        glEnd();
+    }
+    cpsvec = scenario.obtainCHCollisionPoints();
+    for(auto&cps:cpsvec)
+    { 
+        glColor3f(0,1,0);
+        glPointSize(5.0);
+        glBegin(GL_POINTS);
+        glVertex2f(cps.getX(),cps.getY());
+        glEnd();
+    }
+    auto cpsvecofpairs = scenario.obtainEdgesUnderConsideration();
+    for(auto&cps:cpsvecofpairs)
+    { 
+        glColor3f(0,1,0);
+        glPointSize(5.0);
+        glBegin(GL_LINES);
+        glVertex2f(cps.first.getX(),cps.first.getY());
+        glVertex2f(cps.second.getX(),cps.second.getY());
         glEnd();
     }
     glutSwapBuffers();

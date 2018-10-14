@@ -4,6 +4,27 @@
 
 using demolish::world::Scenario;
 
+bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
+                               std::pair<float,float> range)
+{
+    if(range.first<range.second)
+    {
+        if((a1.getTheta() > range.second || a1.getTheta() < range.first)
+        || (a2.getTheta() > range.second || a2.getTheta() < range.first))
+
+        {
+            return true;
+        }
+        return false;
+    }
+    else
+    {
+        // LAZY WE HAVE TO DEAL WITH THIS HAHAHAHA!
+       return false;
+    }
+}
+
+
 void Scenario::step()
 {
     
@@ -25,10 +46,13 @@ void Scenario::step()
    // 
    //       FIRST DETERMINE IF BOUNDING SPHERES COLLIDE
    //
+    
 
-   std::vector<std::pair<int,int>> pairwiseObjectCollisionIndexData;
-
-   
+   _breachedBoundingSpheres.clear();
+   _breachedConvexHulls.clear();
+   _collisonPoints.clear();
+   _breachedCHPoints.clear();   
+   _edgesUnderConsideration.clear();
    float ri,rj;
    std::array<float,2> locationi, locationj;
    int numberOfObjects = _objects.size();
@@ -48,19 +72,18 @@ void Scenario::step()
            // note that we are giving our bounding spheres a little bit of slacjk
            if(DBLsquared<=(ri+rj)*(ri+rj)+0.5)
            {
-               pairwiseObjectCollisionIndexData.emplace_back(i,j);
+               _breachedBoundingSpheres.emplace_back(i,j);
            }
 
        }
    }
    
-   _pleniminaryCollisionData.clear();
 
    //
    // ON THIS DATA WE APPLY THE SEPARATING AXES
    //
     
-   for(auto & pair: pairwiseObjectCollisionIndexData)
+   for(auto & pair: _breachedBoundingSpheres)
    {
        auto A = _objects[pair.first].getWorldConvexHullVertices();
        auto B = _objects[pair.second].getWorldConvexHullVertices();
@@ -83,10 +106,49 @@ void Scenario::step()
        }
        if(CHbreach == true)
        {
-            _pleniminaryCollisionData.push_back(pair);
+            // here we execute a single run of the penality method to 
+            // obtain the actual collision points.
+            //
+            // BEGIN SINGLE PENALTY RUN
+            //
+
+            for(int i=0;i< A.size();i++)
+            {
+               auto pi1  = A[i];
+               auto pi2  = A[i+1 == A.size() ? 0 : i+1];
+               for(int j=0;j< B.size();j++)
+               {
+                    auto pj1  = B[j];
+                    auto pj2  = B[j+1 == B.size() ? 0 : j+1];
+                    auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
+                    auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
+                    float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
+                    if(distance<0.01)
+                    {
+                        // at this point we have found a potential convex hull breach
+                        // we now need to obtain the ranges of theta
+                        std::array<float,4> thetaRanges = {pi1.getTheta(),
+                                                           pi2.getTheta(),
+                                                           pj1.getTheta(),
+                                                           pj2.getTheta()};
+                         
+                        _breachedConvexHulls.emplace_back(pair,thetaRanges);
+                        _breachedCHPoints.push_back(std::get<0>(minimumDistanceVertices));
+                    }
+               }
+           }
        }
    }
-    
+  
+
+    // --------------------------------------------------------------------------------
+   // at this point we should remove doubles that were obtained in the above procedcure
+    //--------------------------------------------------------------------------------
+
+
+
+
+
    // At this stage we now have to apply contact detection to all edges 
    
    //
@@ -96,21 +158,32 @@ void Scenario::step()
    //   we loop through all the edges and calculate the minimum distance
    //   if it less that some tolerance we say that we have colllided
 
-    
-   for(auto & pair: pairwiseObjectCollisionIndexData)
+   
+
+   for(auto & pairOfPairs: _breachedConvexHulls)
    {
+       auto pair = pairOfPairs.first;
+       auto arrayOfRanges = pairOfPairs.second; // the first two correspong to A nad the last two to B
        auto A = _objects[pair.first].getWorldVertices();
        auto B = _objects[pair.second].getWorldVertices();
        // for each line segment in A and each line segment in B
        // we calculate the minimum distance between line segments
        for(int i=0;i< A.size();i++)
        {
+           std::pair<float,float> thetaRangeA = std::make_pair(std::get<0>(arrayOfRanges),std::get<1>(arrayOfRanges));
            auto pi1  = A[i];
            auto pi2  = A[i+1 == A.size() ? 0 : i+1];
+           if(bothVerticesAreOutOfRange(pi1,pi2,thetaRangeA)) continue;
            for(int j=0;j< B.size();j++)
            {
+                std::pair<float,float> thetaRangeB = std::make_pair(std::get<2>(arrayOfRanges),std::get<3>(arrayOfRanges));
                 auto pj1  = B[j];
                 auto pj2  = B[j+1 == B.size() ? 0 : j+1];
+                if(bothVerticesAreOutOfRange(pj1,pj2,thetaRangeB)) continue;
+    
+                _edgesUnderConsideration.emplace_back(pi1,pi2);
+                _edgesUnderConsideration.emplace_back(pj1,pj2);
+
                 auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
                 auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
                 float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);

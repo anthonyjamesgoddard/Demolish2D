@@ -12,11 +12,16 @@ namespace demolish{
 class demolish::world::Scenario
 {
 private:
-    float                               _timestep;
-    int                                 _numberOfIterations;
-    std::vector<Object>                 _objects;
-    std::vector<std::pair<int,int>>     _pleniminaryCollisionData;
-    std::vector<Vertex> _collisonPoints;
+    float                                                                _timestep;
+    int                                                                  _numberOfIterations;
+    std::vector<Object>                                                  _objects;
+    std::vector<std::pair<int,int>>                                      _breachedBoundingSpheres;
+    std::vector<    std::pair<   std::pair<int,int>
+                                ,std::array<float,4>   >        >        _breachedConvexHulls;
+    std::vector<Vertex>                                                  _breachedCHPoints;
+    std::vector<Vertex>                                                  _collisonPoints;
+
+    std::vector<std::pair<Vertex,Vertex>>                                _edgesUnderConsideration;
     // add vec of manifolds 
 public:
     Scenario(  float        timestep,
@@ -37,22 +42,43 @@ public:
     void        render();
 
 
+    bool hasCollision()
+    {
+        return _collisonPoints.size()>0;
+    }
+
+    bool hasCHCollision()
+    {
+        return _breachedCHPoints.size()>0;
+    }
+    bool breachedSpheres()
+    {
+        return _breachedBoundingSpheres.size()>0;
+    }
+
+    bool breachedHulls()
+    {
+        return _breachedConvexHulls.size()>0;
+    }
+
     std::vector<Vertex> obtainCollisionPoints()
     {
         return _collisonPoints;
     }
-
-    // temp function for testing purposes
-    //
-    std::vector<std::pair<int,int>> obtainPleniminaryCollisionData()
+    std::vector<Vertex> obtainCHCollisionPoints()
     {
-        return _pleniminaryCollisionData;
+        return _breachedCHPoints;
     }
-
+    std::vector<std::pair<Vertex,Vertex>> obtainEdgesUnderConsideration()
+    {
+        return _edgesUnderConsideration;
+    }
     void manuallyMoveObject(int ObjectIndex, float x, float y)
     {
         _objects[ObjectIndex].manuallyMoveObject(x,y);
     }
+
+
 };
 
 #endif
