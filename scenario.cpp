@@ -4,6 +4,8 @@
 
 using demolish::world::Scenario;
 
+// really this should be called AT LEAST ONE of two vertices out of range. 
+
 bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
                                std::pair<float,float> range)
 {
@@ -17,10 +19,18 @@ bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
         }
         return false;
     }
-    else
+    else    // range.first > range.second // we will ignore the degencase
     {
-        // LAZY WE HAVE TO DEAL WITH THIS HAHAHAHA!
-       return false;
+        float tempsecond = range.second + 2*3.14159;
+        float tempa1     = a1.getTheta();
+        float tempa2     = a2.getTheta();
+        if((a1.getTheta() < range.second && a1.getTheta() > range.first)
+        || (a2.getTheta() < range.second && a2.getTheta() > range.first))
+
+        {
+            return true;
+        }
+        return false;
     }
 }
 
@@ -190,6 +200,7 @@ void Scenario::step()
                 if(distance<0.01)
                 {
                     _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
+                    _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));
                 }
 
            }

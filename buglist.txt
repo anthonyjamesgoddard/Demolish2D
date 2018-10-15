@@ -1,8 +1,5 @@
-+  When we have more than one object in a scenario we are getting garbage 
-    for all but the last object in the scenario.
-
-        Fixed on 7/10/18.
-        However, we are using a lot more memory than needed. 
-        For the time being we can carry on, but in future we need
-        to look into smart pointers! 
++ This code currently has a bug. But it does not break functionality.
+    If we breach a convex hull edge that "contains" the angle 0, 
+    we resort to checking all edges! This is bad.But not as bad as 
+    not checking any...
 

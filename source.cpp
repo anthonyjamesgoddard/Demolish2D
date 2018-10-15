@@ -109,18 +109,6 @@ int main(int argc, char** argv)
 
     /*
      *  "K"
-     *
-     *  Tested:
-     *      Convex Hull (correct)
-     *      Plenim. Sectorisation (correct)
-     *
-     *      !! there is an issue with the values 
-     *      of the cartesian coords in the sectors
-     *  
-     *  Temporary Patch:
-     *      If we need cartesian coords then
-     *      just calculate them from polar 
-     *      coordinates
      */
 
     
@@ -140,18 +128,6 @@ int main(int argc, char** argv)
 
     /*
      *  "Kv2"
-     *
-     *  Tested:
-     *      Convex Hull (correct)
-     *      Plenim. Sectorisation (correct)
-     *
-     *      !! there is an issue with the values 
-     *      of the cartesian coords in the sectors
-     *  
-     *  Temporary Patch:
-     *      If we need cartesian coords then
-     *      just calculate them from polar 
-     *      coordinates
      */
 
     
@@ -163,20 +139,39 @@ int main(int argc, char** argv)
     verts2.push_back(Vertex(-1,-1));
     verts2.push_back(Vertex(0,-0.9));
     verts2.push_back(Vertex(1,-1));
-    verts2.push_back(Vertex(1.3,0.05));
-    verts2.push_back(Vertex(1.3,-0.1));
+    verts2.push_back(Vertex(0.5,0.05));
+    verts2.push_back(Vertex(0.7,-0.1));
      
+    std::vector<Vertex> verts3;
 
+    /*
+     *  "somethinelse"
+     */
+
+    verts3.push_back(Vertex( 0  ,3));    
+    verts3.push_back(Vertex(-1  ,1));
+    verts3.push_back(Vertex(-0.8,0.8 ));
+    verts3.push_back(Vertex(-1  ,0.6));
+    verts3.push_back(Vertex(-0.8,0.4 ));
+    verts3.push_back(Vertex(-1  ,0.2));
+    verts3.push_back(Vertex(-0.8,0 ));
+    verts3.push_back(Vertex(1  ,0));
+    verts3.push_back(Vertex(0.8,0.1 ));
+    verts3.push_back(Vertex(1  ,0.5));
+    verts3.push_back(Vertex(0.8,0.7 ));
+    verts3.push_back(Vertex(1  ,0.9));
+    verts3.push_back(Vertex(0.8,1 ));
     std::array<float,2> locObj1 = {5,5};
     std::array<float,2> locObj2 = {3,8};
     std::array<float,2> locObj3 = {8,3};
 
-    auto poly = geometry::Polygon(verts1);
+    auto poly1= geometry::Polygon(verts1);
     auto poly2= geometry::Polygon(verts2);
+    auto poly3= geometry::Polygon(verts3);
 
-    auto obj1 = world::Object(poly,locObj1);
+    auto obj1 = world::Object(poly1,locObj1);
     auto obj2 = world::Object(poly2,locObj2);
-    auto obj3 = world::Object(poly2,locObj3);
+    auto obj3 = world::Object(poly3,locObj3);
 
     scenario.addObjectToScenario(obj1);
     scenario.addObjectToScenario(obj2);
