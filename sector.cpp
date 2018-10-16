@@ -1,7 +1,11 @@
 #include"sector.h"
-
+#include<algorithm>
 #include<iostream>
 
+bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
+{
+    return a->getRadius() < b->getRadius();
+}
 
 void demolish::world::Sector::generateLoDs()
 {
@@ -16,7 +20,21 @@ void demolish::world::Sector::generateLoDs()
     // with respect to theta and remove 
     // smallest untill there are only 
     // so many details remaining
-     
+    
+   
+    std::sort(_LoD[0].begin(),_LoD[0].end(),compRadius);
+
+    // the sectors are now sorted from largest to smallest.
+    // radially speaking
+
+    
+    int numberOfVertsInSector = _LoD[0].size();
+    auto temp = _LoD[0];
+    for(int i=1;i<numberOfVertsInSector-2;i++)
+    {
+        temp.pop_back();
+        _LoD.push_back(temp);
+    }
     
     // BEFORE THE FUNCTION ENDS SORT WITH RESPECT TO THETA AGAIN
     //

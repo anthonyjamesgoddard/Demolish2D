@@ -47,7 +47,6 @@ public:
 
     void                            displayProperties();
     void                            fillSectors();
-    void                            generateLoDs();
     void                            calculateMaterialParameters(float density);
     void                            calculateBoundingRadius();
     void                            draw();

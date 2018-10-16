@@ -13,4 +13,6 @@
     in 3D.
 
 
-+   
++   We have currently preformed ALLLLLLL sectors. This is okay from a 
+    real time simulation ideology. BUT for our purposes this needs to
+    change. We need a method which creates these things on demand.

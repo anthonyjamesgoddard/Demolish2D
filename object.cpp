@@ -105,13 +105,6 @@ void demolish::world::Object::fillSectors()
 }
 
 
-void demolish::world::Object::generateLoDs()
-{ 
-    for(auto & v : _sectors )
-    {
-        v.generateLoDs();
-    }
-}
 
 void demolish::world::Object::calculateBoundingRadius()
 {
@@ -143,8 +136,6 @@ demolish::world::Object::Object(
     _convexHull.sortWRTTheta();
     fillSectors();                              
     // fills the sectors with initial data
-    generateLoDs();                             
-    // fills in the levels of detail data structure.
 }
 
 void demolish::world::Object::displayProperties()
@@ -261,7 +252,25 @@ void demolish::world::Object::draw()
 
     }
     glEnd();
-    
+   
+   /*
+    for(int i = 0; i < _sectors.size();i++)
+    {
+        for(int j=0;j<_sectors[i]._LoD.size();j++)
+        {
+            glColor3f(0,1,1);
+            glBegin(GL_LINE_LOOP);
+            for(int k=0;k<_sectors[i]._LoD[j].size();k++)
+            {        
+                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD[j][k]->getX(),
+                           std::get<1>(_location) + _sectors[i]._LoD[j][k]->getY());
+            }
+            glVertex2f(std::get<0>(_location),
+                       std::get<1>(_location));
+            glEnd();
+        }
+    }
+    */
 }
 
 std::array<float,2> demolish::world::Object::getLocation()

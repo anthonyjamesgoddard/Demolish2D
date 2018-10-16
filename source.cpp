@@ -193,7 +193,6 @@ int main(int argc, char** argv)
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );
-
     obj1.displayProperties();
     glutMainLoop( );
 
