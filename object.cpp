@@ -2,7 +2,7 @@
 
 #include<iostream>
 #include<cmath>
-
+#include<memory>
 void demolish::world::Object::fillSectors()
 {
     //
@@ -35,7 +35,7 @@ void demolish::world::Object::fillSectors()
     
     // ------- all but the last sector is filled here ---------------
 
-    std::vector<Vertex> finestLoD;
+    std::vector<std::shared_ptr<Vertex>> finestLoD;
 
     float thetaHi   = _sectors[0]._theta2;
     float thetaLow  = _sectors[0]._theta1;
@@ -52,7 +52,10 @@ void demolish::world::Object::fillSectors()
                 vertexIndex++;
                 continue;
             }
-            finestLoD.push_back(geometryVerts[vertexIndex]);
+            
+            std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
+                                                  geometryVerts[vertexIndex].getY()));
+            finestLoD.push_back(vp);
             vertexIndex++;
             if(vertexIndex ==  geometryVertsSz)
             {
@@ -79,7 +82,9 @@ void demolish::world::Object::fillSectors()
     vertexIndex--;sectorIndex++;    
     while(geometryVerts[vertexIndex].getTheta()<2*M_PI)
     {
-        finestLoD.push_back(geometryVerts[vertexIndex]);
+        std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
+                                              geometryVerts[vertexIndex].getY()));
+        finestLoD.push_back(vp);
         vertexIndex++;
         if(vertexIndex = geometryVertsSz)
         {
@@ -90,7 +95,9 @@ void demolish::world::Object::fillSectors()
     while(geometryVerts[vertexIndex].getTheta()<=
             _sectors[sectorIndex]._theta2)
     {
-        finestLoD.push_back(geometryVerts[vertexIndex]);
+        std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
+                                              geometryVerts[vertexIndex].getY()));
+        finestLoD.push_back(vp);
         vertexIndex++;
     }
     tempVec = finestLoD;

@@ -1,5 +1,0 @@
-just code things up by tuesday. 
-
-Basic penalty method
-
-Start on physics

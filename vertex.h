@@ -35,7 +35,7 @@ public:
     Vertex      perpendicular();
     float       norm();
     void        normalise();
-    float getTheta()
+    float       getTheta()
     {
         return _theta;
     }

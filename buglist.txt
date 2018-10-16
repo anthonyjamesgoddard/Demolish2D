@@ -1,5 +1,16 @@
-+ This code currently has a bug. But it does not break functionality.
-    If we breach a convex hull edge that "contains" the angle 0, 
-    we resort to checking all edges! This is bad.But not as bad as 
-    not checking any...
++   We can get away with halving the memory cost of an object.
+    ...Possibly more: 
+    
+    Do we actually need to store the finest level
+    of detail geometry and the lowest level of detail geometry
+    AS WELL AS the convex hull and the geometry itself?!
 
+    Hence we might acutally beable to EITHER reduce _LoD by 2
+    for each object or even remove the data members _convexHull
+    and _geomtery. 
+    
+    Leave this to be implemented in 2.0 or kept in mind for demolish
+    in 3D.
+
+
++   

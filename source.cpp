@@ -177,7 +177,6 @@ int main(int argc, char** argv)
     scenario.addObjectToScenario(obj2);
     scenario.addObjectToScenario(obj3);
 
-    obj1.displayProperties();
 
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
@@ -195,7 +194,7 @@ int main(int argc, char** argv)
     glPushMatrix( );
     glLoadIdentity( );
 
-
+    obj1.displayProperties();
     glutMainLoop( );
 
     return 0;
