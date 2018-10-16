@@ -1,7 +1,7 @@
 #include"scenario.h"
 #include"render.h"
 #include"collisionpair.h"
-
+#include<cmath>
 using demolish::world::Scenario;
 
 // really this should be called AT LEAST ONE of two vertices out of range. 
@@ -19,18 +19,26 @@ bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
         }
         return false;
     }
-    else    // range.first > range.second // we will ignore the degencase
+    else  
     {
-        float tempsecond = range.second + 2*3.14159;
-        float tempa1     = a1.getTheta();
-        float tempa2     = a2.getTheta();
-        if((a1.getTheta() < range.second && a1.getTheta() > range.first)
-        || (a2.getTheta() < range.second && a2.getTheta() > range.first))
-
+        float a1theta = a1.getTheta();
+        float a2theta = a2.getTheta();
+        if((a1theta >= range.first && a2theta >= range.first)
+        && (a1theta <= 2*M_PI      && a2theta <= 2*M_PI))
         {
-            return true;
+            return false;
         }
-        return false;
+        if((a1theta <= range.second && a2theta <= range.second)
+        && (a1theta >= 0            && a2theta >= 0))
+        {
+            return false;
+        }
+        if((a1theta >= range.first  && a1theta <= 2*M_PI)
+        && (a2theta <= range.second && a2theta >= 0))
+        {
+            return false;
+        }
+        return true;
     }
 }
 

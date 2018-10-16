@@ -177,6 +177,8 @@ int main(int argc, char** argv)
     scenario.addObjectToScenario(obj2);
     scenario.addObjectToScenario(obj3);
 
+    obj1.displayProperties();
+
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
     glutInitWindowSize( 1024, 768 );
