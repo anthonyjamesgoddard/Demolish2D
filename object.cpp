@@ -5,10 +5,6 @@
 #include<memory>
 void demolish::world::Object::fillSectors()
 {
-    //
-    // obtain references to underlying geometry
-    //
-
     auto geometryVerts = _geometry.getVertices();
     auto hullVerts     = _convexHull.getVertices();
     int hullVertsSz    = hullVerts.size();
@@ -16,24 +12,40 @@ void demolish::world::Object::fillSectors()
 
     for(int i=0;i<hullVertsSz-1;i++)
     {
-        _sectors.push_back(Sector(hullVerts[i].getTheta(),
-                            hullVerts[i+1].getTheta()));
+        Sector tempSec(hullVerts[i].getTheta(),hullVerts[i+1].getTheta());
+
+
+
+        std::shared_ptr<Vertex> chp1(new Vertex(hullVerts[i].getX(),
+                                                hullVerts[i].getY()));
+        chp1->fillPolars();
+        std::shared_ptr<Vertex> chp2(new Vertex(hullVerts[i+1].getX(),
+                                                hullVerts[i+1].getY()));
+        chp2->fillPolars();
+
+
+        std::vector<std::shared_ptr<Vertex>> vecOfVert;
+        vecOfVert.push_back(chp1);
+        vecOfVert.push_back(chp2);
+        tempSec._LoD.push_back(vecOfVert);
+        _sectors.push_back(tempSec);
+
     }
-    _sectors.push_back(Sector(hullVerts[hullVertsSz-1].getTheta(),
-                                hullVerts[0].getTheta()));
-    //
-    // fill sectors
-    //
+    Sector tempSec(hullVerts[hullVertsSz-1].getTheta(),hullVerts[0].getTheta());
 
-    /**
-     * By ordering with respect to the angle the vertex makes 
-     * with the horizontal we can reduce the complexity of
-     * forming these sectors to linear time.
-     */
+    std::shared_ptr<Vertex> chp1(new Vertex(hullVerts[hullVertsSz-1].getX(),
+                                            hullVerts[hullVertsSz-1].getY()));
+    chp1->fillPolars();
+    std::shared_ptr<Vertex> chp2(new Vertex(hullVerts[0].getX(),
+                                            hullVerts[0].getY()));
+    chp2->fillPolars();
+    std::vector<std::shared_ptr<Vertex>> vecOfVert;
+    vecOfVert.push_back(chp1);
+    vecOfVert.push_back(chp2);
+    tempSec._LoD.push_back(vecOfVert);
+    _sectors.push_back(tempSec);
 
 
-    
-    // ------- all but the last sector is filled here ---------------
 
     std::vector<std::shared_ptr<Vertex>> finestLoD;
 
@@ -67,7 +79,7 @@ void demolish::world::Object::fillSectors()
         {
             vertexIndex--;
             auto tempVec = finestLoD;
-            _sectors[sectorIndex]._LoD.push_back(tempVec);
+            _sectors[sectorIndex]._finestLoD = tempVec;
             finestLoD.clear();
             sectorIndex++;
             thetaHi  = _sectors[sectorIndex]._theta2;
@@ -76,26 +88,24 @@ void demolish::world::Object::fillSectors()
     }
 
     auto tempVec = finestLoD;
-    _sectors[sectorIndex]._LoD.push_back(tempVec);
+    _sectors[sectorIndex]._finestLoD = tempVec;
     finestLoD.clear();
 
-    // -------- for the last sector 
     vertexIndex--;sectorIndex++;    
-    while(geometryVerts[vertexIndex].getTheta()<2*M_PI)
+    while(geometryVerts[vertexIndex].getTheta()<=2*M_PI)
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
         vp->fillPolars();
         finestLoD.push_back(vp);
         vertexIndex++;
-        if(vertexIndex = geometryVertsSz)
+        if(vertexIndex == geometryVertsSz)
         {
             vertexIndex=0;
             break;
         }
     }
-    while(geometryVerts[vertexIndex].getTheta()<=
-            _sectors[sectorIndex]._theta2)
+    while(geometryVerts[vertexIndex].getTheta()<=_sectors[sectorIndex]._theta2)
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
@@ -103,15 +113,13 @@ void demolish::world::Object::fillSectors()
         finestLoD.push_back(vp);
         vertexIndex++;
     }
-    tempVec = finestLoD;
-    _sectors[sectorIndex]._LoD.push_back(tempVec);
+    _sectors[sectorIndex]._finestLoD = finestLoD;
 }
 
 
 
 void demolish::world::Object::calculateBoundingRadius()
 {
-    // sort the vertices w.r.t the radius 
     _geometry.sortWRTRadius();
     auto v = _geometry.getVertices();
     _boundingRadius = v[0].getRadius();

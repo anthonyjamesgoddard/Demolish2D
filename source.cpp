@@ -148,19 +148,19 @@ int main(int argc, char** argv)
      *  "somethinelse"
      */
 
-    verts3.push_back(Vertex( 0  ,3));    
-    verts3.push_back(Vertex(-1  ,1));
-    verts3.push_back(Vertex(-0.8,0.8 ));
-    verts3.push_back(Vertex(-1  ,0.6));
-    verts3.push_back(Vertex(-0.8,0.4 ));
-    verts3.push_back(Vertex(-1  ,0.2));
-    verts3.push_back(Vertex(-0.8,0 ));
-    verts3.push_back(Vertex(1  ,0));
-    verts3.push_back(Vertex(0.8,0.1 ));
-    verts3.push_back(Vertex(1  ,0.5));
-    verts3.push_back(Vertex(0.8,0.7 ));
-    verts3.push_back(Vertex(1  ,0.9));
-    verts3.push_back(Vertex(0.8,1 ));
+    verts3.push_back(Vertex( 0    ,3));    
+    verts3.push_back(Vertex(-1.1  ,1));
+    verts3.push_back(Vertex(-0.8  ,0.8 ));
+    verts3.push_back(Vertex(-1.8  ,0.6));
+    verts3.push_back(Vertex(-0.6  ,0.4 ));
+    verts3.push_back(Vertex(-1    ,0.2));
+    verts3.push_back(Vertex(-0.8  ,0 ));
+    verts3.push_back(Vertex(1     ,0));
+    verts3.push_back(Vertex(0.8   ,0.1 ));
+    verts3.push_back(Vertex(1     ,0.5));
+    verts3.push_back(Vertex(0.8   ,0.7 ));
+    verts3.push_back(Vertex(1     ,0.9));
+    verts3.push_back(Vertex(0.8   ,1 ));
     std::array<float,2> locObj1 = {5,5};
     std::array<float,2> locObj2 = {3,8};
     std::array<float,2> locObj3 = {8,3};
@@ -193,7 +193,17 @@ int main(int argc, char** argv)
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );
+    std::cout << "//////////////////////// OBJECT PROPS ///////////////////////" << std::endl;
+    std::cout << std::endl;
+    std::cout << "//////////////////////// OBJECT 1 ///////////////////////" << std::endl;
+    std::cout << std::endl;
     obj1.displayProperties();
+    std::cout << "//////////////////////// OBJECT 2 ///////////////////////" << std::endl;
+    std::cout << std::endl;
+    obj2.displayProperties();
+    std::cout << "//////////////////////// OBJECT 3 ///////////////////////" << std::endl;
+    std::cout << std::endl;
+    obj3.displayProperties();
     glutMainLoop( );
 
     return 0;

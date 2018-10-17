@@ -1,3 +1,12 @@
+BUGZ:
+
+-   There is an issue with (current) object 3.
+    we are getting an empty finest level of detail 
+    for the last sector. 
+
+
+IDEAS
+
 +   We can get away with halving the memory cost of an object.
     ...Possibly more: 
     
@@ -9,10 +18,18 @@
     for each object or even remove the data members _convexHull
     and _geomtery. 
     
-    Leave this to be implemented in 2.0 or kept in mind for demolish
-    in 3D.
+    In addition to this we can have some sort of friend class
+    set up that would inextricably link the vertices with a 
+    sector. This would reduce the cost of transitioning through
+    the levels of details to almost nothing. Currently we have
+    to search through the soctors untill we arrive at the particular angle.
 
+    Resolution:
+        Leave this to be implemented in 2.0 or kept in mind for demolish
+        in 3D.
 
-+   We have currently preformed ALLLLLLL sectors. This is okay from a 
-    real time simulation ideology. BUT for our purposes this needs to
-    change. We need a method which creates these things on demand.
++   We need to transition to storing vertices on heap using shared_ptr's.
+    At the very least this should be implemented in the next increment or
+    even in the final 3D product
+
+    

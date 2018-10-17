@@ -22,7 +22,7 @@ void demolish::world::Sector::generateLoDs()
         temp.pop_back();
         _LoD.push_back(temp);
     }
-    
+     
     // BEFORE THE FUNCTION ENDS SORT WITH RESPECT TO THETA AGAIN
     //
     //
@@ -32,6 +32,13 @@ void demolish::world::Sector::generateLoDs()
 
 void demolish::world::Sector::displayContents()
 {
+   std::cout << _theta1 << " " << _theta2 << std::endl; 
+   std::cout << "the finest level of detail is:" << std::endl;
+   for(auto&vert:_finestLoD)
+   {
+       vert->displayProperties();
+   }
+   std::cout << "the layers in increasing levels of detail are given by" << std::endl;
    int LoDSz = _LoD.size();
    for(int i=0;i<LoDSz;i++)
    {

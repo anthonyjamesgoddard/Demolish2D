@@ -17,6 +17,7 @@ class demolish::world::Sector
 {
 public:
     float _theta1,_theta2;
+    std::vector<std::shared_ptr<Vertex>>  _finestLoD;
     std::vector<std::vector<std::shared_ptr<Vertex>>> _LoD;
 public:
     Sector(){};
