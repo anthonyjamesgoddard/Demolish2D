@@ -21,6 +21,7 @@ bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
     }
     else  
     {
+        // this could be simplified. But it works! 
         float a1theta = a1.getTheta();
         float a2theta = a2.getTheta();
         if((a1theta >= range.first && a2theta >= range.first)
@@ -46,26 +47,6 @@ bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
 void Scenario::step()
 {
     
-   //   DELETE OLD COLLISION DATA
-   //       + how do we store our collison data?
-   //           We generate pairs of object index data
-   //           which narrow down the collision.
-   //       + especially since out data is multileveled?!
-
-   //
-   //   GENERATE NEW COLLISION DATA
-   //       
-   //       + First determine if bounding spheres collide.
-   //       + Use SAT for convex hull (like impulse)
-   //       + resort to penalty
-   //
-
-  
-   // 
-   //       FIRST DETERMINE IF BOUNDING SPHERES COLLIDE
-   //
-    
-
    _breachedBoundingSpheres.clear();
    _breachedConvexHulls.clear();
    _collisonPoints.clear();
@@ -82,12 +63,8 @@ void Scenario::step()
        {
            rj        =  _objects[j].getBoundingRadius();
            locationj =  _objects[j].getLocation();
-           // If the distance between the centres is less
-           // than the sum of the radi we have a POTENTIAL
-           // collisioon.
            float DBLsquared = (std::get<0>(locationi)-std::get<0>(locationj))*(std::get<0>(locationi)-std::get<0>(locationj))
                         + (std::get<1>(locationi)-std::get<1>(locationj))*(std::get<1>(locationi)-std::get<1>(locationj));
-           // note that we are giving our bounding spheres a little bit of slacjk
            if(DBLsquared<=(ri+rj)*(ri+rj)+0.5)
            {
                _breachedBoundingSpheres.emplace_back(i,j);
@@ -95,12 +72,7 @@ void Scenario::step()
 
        }
    }
-   
 
-   //
-   // ON THIS DATA WE APPLY THE SEPARATING AXES
-   //
-    
    for(auto & pair: _breachedBoundingSpheres)
    {
        auto A = _objects[pair.first].getWorldConvexHullVertices();
@@ -109,11 +81,9 @@ void Scenario::step()
        
        bool CHbreach = true;
        
-       // now we need to loop over the axes and obtain projections
        for(auto&axis:SATAxes)
        {
 
-            // project the shape onto the axis
            auto projectionA = demolish::world::projectShapeOntoAxis(A,axis);
            auto projectionB = demolish::world::projectShapeOntoAxis(B,axis);
            if(!demolish::world::overlap(projectionA,projectionB))
@@ -124,8 +94,6 @@ void Scenario::step()
        }
        if(CHbreach == true)
        {
-            // here we execute a single run of the penality method to 
-            // obtain the actual collision points.
             //
             // BEGIN SINGLE PENALTY RUN
             //
@@ -143,8 +111,6 @@ void Scenario::step()
                     float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
                     if(distance<0.01)
                     {
-                        // at this point we have found a potential convex hull breach
-                        // we now need to obtain the ranges of theta
                         std::array<float,4> thetaRanges = {pi1.getTheta(),
                                                            pi2.getTheta(),
                                                            pj1.getTheta(),
@@ -162,21 +128,6 @@ void Scenario::step()
     // --------------------------------------------------------------------------------
    // at this point we should remove doubles that were obtained in the above procedcure
     //--------------------------------------------------------------------------------
-
-
-
-
-
-   // At this stage we now have to apply contact detection to all edges 
-   
-   //
-   //   implement matrix class (basic one) in C++
-   //       - how are we going to carry out that solve?
-   //
-   //   we loop through all the edges and calculate the minimum distance
-   //   if it less that some tolerance we say that we have colllided
-
-   
 
    for(auto & pairOfPairs: _breachedConvexHulls)
    {
@@ -216,13 +167,6 @@ void Scenario::step()
    }
    
 
-   //
-   //   INTEGRATE FORCES
-   //
-   //
-   
-
-   // ... 
 }
 
 void Scenario::addObjectToScenario(Polygon&                geometry,

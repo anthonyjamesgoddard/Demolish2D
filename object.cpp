@@ -55,6 +55,7 @@ void demolish::world::Object::fillSectors()
             
             std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                                   geometryVerts[vertexIndex].getY()));
+            vp->fillPolars();
             finestLoD.push_back(vp);
             vertexIndex++;
             if(vertexIndex ==  geometryVertsSz)
@@ -84,6 +85,7 @@ void demolish::world::Object::fillSectors()
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
+        vp->fillPolars();
         finestLoD.push_back(vp);
         vertexIndex++;
         if(vertexIndex = geometryVertsSz)
@@ -97,6 +99,7 @@ void demolish::world::Object::fillSectors()
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
+        vp->fillPolars();
         finestLoD.push_back(vp);
         vertexIndex++;
     }

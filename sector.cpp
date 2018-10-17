@@ -9,19 +9,6 @@ bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
 
 void demolish::world::Sector::generateLoDs()
 {
-    // as this function is only called when
-    // the size of level of detail is one
-    // we can rest assured that this will work
-    for(auto&vert:_LoD[0])
-    {
-        vert->fillPolars();
-    }
-    // now we have to sort each sector
-    // with respect to theta and remove 
-    // smallest untill there are only 
-    // so many details remaining
-    
-   
     std::sort(_LoD[0].begin(),_LoD[0].end(),compRadius);
 
     // the sectors are now sorted from largest to smallest.
@@ -40,7 +27,7 @@ void demolish::world::Sector::generateLoDs()
     //
     //
     // THIS IS FU**ING ESSENTIAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    
 }
 
 void demolish::world::Sector::displayContents()
