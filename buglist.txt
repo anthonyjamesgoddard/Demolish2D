@@ -1,11 +1,15 @@
 BUGZ:
 
--   There is an issue with (current) object 3.
-    we are getting an empty finest level of detail 
-    for the last sector. 
+-   Report 17/10/2018:
+        There is an issue with (current) object 3.
+        we are getting an empty finest level of detail 
+        for the last sector. 
+    Update 17/10/2018:
+        Squashed that MF. Issue resolved.
 
 
-IDEAS
+
+IDEAS:
 
 +   We can get away with halving the memory cost of an object.
     ...Possibly more: 

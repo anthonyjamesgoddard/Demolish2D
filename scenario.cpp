@@ -126,8 +126,12 @@ void Scenario::step()
   
 
     // --------------------------------------------------------------------------------
-   // at this point we should remove doubles that were obtained in the above procedcure
+   // at this point we should remove duplicates that were obtained in the above procedcure
     //--------------------------------------------------------------------------------
+
+
+    // there must be a better way of doing this!
+    // we can consider just the line segments?!
 
    for(auto & pairOfPairs: _breachedConvexHulls)
    {

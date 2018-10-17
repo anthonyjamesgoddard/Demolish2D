@@ -39,6 +39,8 @@ void demolish::world::Object::fillSectors()
     std::shared_ptr<Vertex> chp2(new Vertex(hullVerts[0].getX(),
                                             hullVerts[0].getY()));
     chp2->fillPolars();
+
+
     std::vector<std::shared_ptr<Vertex>> vecOfVert;
     vecOfVert.push_back(chp1);
     vecOfVert.push_back(chp2);
@@ -91,7 +93,8 @@ void demolish::world::Object::fillSectors()
     _sectors[sectorIndex]._finestLoD = tempVec;
     finestLoD.clear();
 
-    vertexIndex--;sectorIndex++;    
+    vertexIndex--;sectorIndex++;
+    if(sectorIndex==hullVertsSz) sectorIndex--;
     while(geometryVerts[vertexIndex].getTheta()<=2*M_PI)
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
