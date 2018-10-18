@@ -130,12 +130,11 @@ void Scenario::step()
   
     
 
-  //  for(auto&bsecs:_breachedSectors)
- //   {
-  //      auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD;
-  //      auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD;
-  //  }
-    // now we loop over the sectors
+    for(auto&bsecs:_breachedSectors)
+    {
+        auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD;
+        auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD;
+    }
     
 
     // --------------------------------------------------------------------------------
@@ -145,7 +144,7 @@ void Scenario::step()
     
     // there must be a better way of doing this!
     // we can consider just the line segments?!
-
+/*
    for(auto & pairOfPairs: _breachedConvexHulls)
    {
        auto pair = pairOfPairs.first;
@@ -181,7 +180,7 @@ void Scenario::step()
            }
        }
    }
-   
+  */ 
 }
 
 void Scenario::addObjectToScenario(Polygon&                geometry,
