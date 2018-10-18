@@ -60,6 +60,17 @@ void displayfunc(void)
         glVertex2f(cps.second.getX(),cps.second.getY());
         glEnd();
     }
+    auto cpslalal = scenario.obtainBreachedSectors();
+    for(unsigned int i=0;i<cpslalal.size();i++)
+    {
+        auto cps = cpslalal[i];
+        std::string objectA = std::to_string(cps.first.first);
+        std::string objectB = std::to_string(cps.first.second);
+        std::string sectorA = std::to_string(cps.second.first);
+        std::string sectorB = std::to_string(cps.second.second);
+        displayString(0.1,2+0.2*i,(objectA+" "+objectB+" "+sectorA+" "+sectorB).c_str());
+    }
+
     glutSwapBuffers();
 }
 

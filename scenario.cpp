@@ -52,6 +52,7 @@ void Scenario::step()
    _collisonPoints.clear();
    _breachedCHPoints.clear();   
    _edgesUnderConsideration.clear();
+   _breachedSectors.clear();
    float ri,rj;
    std::array<float,2> locationi, locationj;
    int numberOfObjects = _objects.size();
@@ -83,7 +84,6 @@ void Scenario::step()
        
        for(auto&axis:SATAxes)
        {
-
            auto projectionA = demolish::world::projectShapeOntoAxis(A,axis);
            auto projectionB = demolish::world::projectShapeOntoAxis(B,axis);
            if(!demolish::world::overlap(projectionA,projectionB))
@@ -115,7 +115,11 @@ void Scenario::step()
                                                            pi2.getTheta(),
                                                            pj1.getTheta(),
                                                            pj2.getTheta()};
-                         
+                        
+                        // POUND-BACK BREACHED SECTORS              
+                        std::pair<int,int>  sectorPair   = std::make_pair(pi1.getAssociatedSectorIndex(),
+                                                                          pj1.getAssociatedSectorIndex());
+                        _breachedSectors.emplace_back(pair,sectorPair);
                         _breachedConvexHulls.emplace_back(pair,thetaRanges);
                         _breachedCHPoints.push_back(std::get<0>(minimumDistanceVertices));
                     }
@@ -124,12 +128,21 @@ void Scenario::step()
        }
    }
   
+    
+
+  //  for(auto&bsecs:_breachedSectors)
+ //   {
+  //      auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD;
+  //      auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD;
+  //  }
+    // now we loop over the sectors
+    
 
     // --------------------------------------------------------------------------------
    // at this point we should remove duplicates that were obtained in the above procedcure
     //--------------------------------------------------------------------------------
 
-
+    
     // there must be a better way of doing this!
     // we can consider just the line segments?!
 
@@ -165,12 +178,10 @@ void Scenario::step()
                     _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
                     _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));
                 }
-
            }
        }
    }
    
-
 }
 
 void Scenario::addObjectToScenario(Polygon&                geometry,

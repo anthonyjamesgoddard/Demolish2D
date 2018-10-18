@@ -19,10 +19,11 @@ void demolish::world::Object::fillSectors()
         std::shared_ptr<Vertex> chp1(new Vertex(hullVerts[i].getX(),
                                                 hullVerts[i].getY()));
         chp1->fillPolars();
+        chp1->setAssociatedSectorIndex(i);
         std::shared_ptr<Vertex> chp2(new Vertex(hullVerts[i+1].getX(),
                                                 hullVerts[i+1].getY()));
         chp2->fillPolars();
-
+        chp2->setAssociatedSectorIndex(i);
 
         std::vector<std::shared_ptr<Vertex>> vecOfVert;
         vecOfVert.push_back(chp1);
@@ -39,8 +40,8 @@ void demolish::world::Object::fillSectors()
     std::shared_ptr<Vertex> chp2(new Vertex(hullVerts[0].getX(),
                                             hullVerts[0].getY()));
     chp2->fillPolars();
-
-
+    chp1->setAssociatedSectorIndex(hullVertsSz-1);
+    chp2->setAssociatedSectorIndex(hullVertsSz-1);
     std::vector<std::shared_ptr<Vertex>> vecOfVert;
     vecOfVert.push_back(chp1);
     vecOfVert.push_back(chp2);
@@ -69,7 +70,7 @@ void demolish::world::Object::fillSectors()
             
             std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                                   geometryVerts[vertexIndex].getY()));
-            vp->fillPolars();
+            vp->fillPolars();vp->setAssociatedSectorIndex(sectorIndex);
             finestLoD.push_back(vp);
             vertexIndex++;
             if(vertexIndex ==  geometryVertsSz)
@@ -99,7 +100,7 @@ void demolish::world::Object::fillSectors()
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
-        vp->fillPolars();
+        vp->fillPolars();vp->setAssociatedSectorIndex(sectorIndex);
         finestLoD.push_back(vp);
         vertexIndex++;
         if(vertexIndex == geometryVertsSz)
@@ -112,7 +113,8 @@ void demolish::world::Object::fillSectors()
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
-        vp->fillPolars();
+        vp->fillPolars();vp->setAssociatedSectorIndex(sectorIndex);
+
         finestLoD.push_back(vp);
         vertexIndex++;
     }

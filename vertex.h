@@ -17,6 +17,7 @@ private:
     // replace with std::array<float,4> ?!
     float _x,_y;                        // cartesian
     float _r,_theta;                    // polar (w.r.t centroid of polygon)
+    int   _associatedSectorIndex;       // the secret
 public:
     Vertex(){};
     Vertex(float x,float y);
@@ -46,13 +47,20 @@ public:
     }
     float       getX() const {return _x;}
     float       getY() const {return _y;}
+    int         getAssociatedSectorIndex()
+    {
+        return _associatedSectorIndex;
+    }
     void        setX(float x) {_x = x;}
     void        setY(float y) {_y = y;}
     void        set(float x,float y){_x = x;_y=y;}
-
+    void        setAssociatedSectorIndex(int i)
+    {
+        _associatedSectorIndex = i;
+    }
     void displayProperties()
     {
-        std::cout << _x << " " << _y << " " << _r << " " << _theta << std::endl;
+        std::cout << _x << " " << _y << " " << _r << " " << _theta << " " << _associatedSectorIndex << std::endl;
     }
 
     friend float cross(const Vertex&o,const Vertex&a,const Vertex&b)

@@ -26,7 +26,6 @@ private:
     Polygon                         _geometry;
     Polygon                         _convexHull;
     float                           _boundingRadius;
-    std::vector<Sector>             _sectors;
 
     // physics parametrs
     std::array<float,2>             _location;
@@ -40,6 +39,8 @@ private:
     float                           _invMass;
     float                           _inertia;
     float                           _invIntertia;
+public:
+    std::vector<Sector>             _sectors;
 public:
 
     Object( Polygon                 &geometry,

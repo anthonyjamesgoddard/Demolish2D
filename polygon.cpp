@@ -3,6 +3,21 @@
 
 using demolish::geometry::Polygon;
 
+//
+// Sorting by theta
+//
+bool compTheta(Vertex a, Vertex b)
+{
+    return a.getTheta() < b.getTheta();
+}
+
+
+bool compRadius(Vertex a, Vertex b)
+{
+    return a.getRadius() > b.getRadius();
+}
+//
+
 void Polygon::setCentroid(std::array<float,2> c)
 {
     _centroid = c;
@@ -99,6 +114,13 @@ Polygon Polygon::convexHull()
     }
 
     hull.resize(k-1);
+    std::sort(hull.begin(),hull.end(),compTheta);
+    int i =0;
+    for(auto&p:hull)
+    {
+        p.setAssociatedSectorIndex(i);
+        i++;
+    }
     return Polygon(hull);
 }
 
@@ -114,21 +136,6 @@ std::vector<Vertex>& Polygon::getVertices()
 {
     return _vertices;
 }
-
-//
-// Sorting by theta
-//
-bool compTheta(Vertex a, Vertex b)
-{
-    return a.getTheta() < b.getTheta();
-}
-
-
-bool compRadius(Vertex a, Vertex b)
-{
-    return a.getRadius() > b.getRadius();
-}
-//
 
 
 void Polygon::sortWRTTheta()

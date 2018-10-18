@@ -20,17 +20,7 @@ IDEAS:
 
     Hence we might acutally beable to EITHER reduce _LoD by 2
     for each object or even remove the data members _convexHull
-    and _geomtery. 
-    
-    In addition to this we can have some sort of friend class
-    set up that would inextricably link the vertices with a 
-    sector. This would reduce the cost of transitioning through
-    the levels of details to almost nothing. Currently we have
-    to search through the soctors untill we arrive at the particular angle.
-
-    Resolution:
-        Leave this to be implemented in 2.0 or kept in mind for demolish
-        in 3D.
+    and _geomtery.  
 
 +   We need to transition to storing vertices on heap using shared_ptr's.
     At the very least this should be implemented in the next increment or

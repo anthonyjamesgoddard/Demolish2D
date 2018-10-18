@@ -8,14 +8,16 @@ Vertex::Vertex(float x,float y)
 {
     _x = x; _y = y;
     _r = 0; _theta = 0;
+    _associatedSectorIndex = 0;
 }
 
 Vertex& Vertex::operator=(const Vertex& v)
 {
-   _x =     v._x;
-   _y =     v._y;
-   _r =     v._r;
-   _theta = v._theta;
+   _x                       =     v._x;
+   _y                       =     v._y;
+   _r                       =     v._r;
+   _theta                   =     v._theta;
+   _associatedSectorIndex   =     v._associatedSectorIndex;
    return *this;
 }
 
