@@ -216,6 +216,7 @@ void demolish::world::Object::calculateMaterialParameters(float density)
 void demolish::world::Object::draw()
 {
     // draw the object
+    /*
     glColor3f(1,1,1);
     auto verts = _geometry.getVertices();
     glBegin(GL_LINE_LOOP);
@@ -224,11 +225,11 @@ void demolish::world::Object::draw()
         glVertex2f(verts[i].getX() + std::get<0>(_location),
                    verts[i].getY() + std::get<1>(_location));
     }
-
+    
     // draw the convex hull
     glEnd();
-
-    
+    */
+    /*
     glColor3f(1,0,0);
     verts = _convexHull.getVertices();
     glBegin(GL_LINE_LOOP);
@@ -238,7 +239,7 @@ void demolish::world::Object::draw()
                    verts[i].getY() + std::get<1>(_location));
     }
     glEnd();
-
+    */
     // draw the centroid 
     // note that the entroid of the object is the 
     // centroid of _geometry
@@ -253,7 +254,7 @@ void demolish::world::Object::draw()
 
     // draw the bounding radius
     //
-    
+    /*
     glColor3f(1,1,0);
     glBegin(GL_LINE_LOOP);
     float theta = 0;
@@ -268,25 +269,23 @@ void demolish::world::Object::draw()
 
     }
     glEnd();
+   */
    
-   /*
     for(int i = 0; i < _sectors.size();i++)
     {
-        for(int j=0;j<_sectors[i]._LoD.size();j++)
-        {
             glColor3f(0,1,1);
-            glBegin(GL_LINE_LOOP);
-            for(int k=0;k<_sectors[i]._LoD[j].size();k++)
+            glBegin(GL_LINES);
+            for(int k=0;k<_sectors[i]._LoD.back().size();k++)
             {        
-                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD[j][k]->getX(),
-                           std::get<1>(_location) + _sectors[i]._LoD[j][k]->getY());
+                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD.back()[k]->getX(),
+                           std::get<1>(_location) + _sectors[i]._LoD.back()[k]->getY());
             }
             glVertex2f(std::get<0>(_location),
                        std::get<1>(_location));
             glEnd();
-        }
+        
     }
-    */
+    
 }
 
 std::array<float,2> demolish::world::Object::getLocation()

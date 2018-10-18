@@ -1,0 +1,2 @@
+In this folder our main concern is dealing with spikes on the vertices that overlap and
+destroy the sectorisation process in its vanilla form.

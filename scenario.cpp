@@ -128,12 +128,17 @@ void Scenario::step()
        }
    }
   
-    
 
     for(auto&bsecs:_breachedSectors)
     {
-        auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD;
-        auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD;
+
+        auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD.back();
+        auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD.back();
+        // Asector and Bsector are a vector of vertices (shared_ptrs)
+
+        auto result = _objects[bsecs.first.first]._sectors[bsecs.second.first].generateNextLoD(); 
+
+        
     }
     
 
@@ -141,10 +146,10 @@ void Scenario::step()
    // at this point we should remove duplicates that were obtained in the above procedcure
     //--------------------------------------------------------------------------------
 
-    
-    // there must be a better way of doing this!
-    // we can consider just the line segments?!
 /*
+ *
+ * THIS IS OLD CODE THAT WAS RELEVANT ONLY WHEN GOING THROUGH THE TRI-LEVEL
+ * OF DETAIL APPROACH.
    for(auto & pairOfPairs: _breachedConvexHulls)
    {
        auto pair = pairOfPairs.first;

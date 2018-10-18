@@ -7,27 +7,11 @@ bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
     return a->getRadius() < b->getRadius();
 }
 
-void demolish::world::Sector::generateLoDs()
+int demolish::world::Sector::generateNextLoD()
 {
-    std::sort(_LoD[0].begin(),_LoD[0].end(),compRadius);
-
-    // the sectors are now sorted from largest to smallest.
-    // radially speaking
-
-    
-    int numberOfVertsInSector = _LoD[0].size();
-    auto temp = _LoD[0];
-    for(int i=1;i<numberOfVertsInSector-2;i++)
-    {
-        temp.pop_back();
-        _LoD.push_back(temp);
-    }
-     
-    // BEFORE THE FUNCTION ENDS SORT WITH RESPECT TO THETA AGAIN
-    //
-    //
-    // THIS IS FU**ING ESSENTIAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
+    // we need to prune the vertices with the largest values of the radius 
+    // from the finest level of detail
+    return 0;
 }
 
 void demolish::world::Sector::displayContents()

@@ -68,7 +68,7 @@ void displayfunc(void)
         std::string objectB = std::to_string(cps.first.second);
         std::string sectorA = std::to_string(cps.second.first);
         std::string sectorB = std::to_string(cps.second.second);
-        displayString(0.1,2+0.2*i,(objectA+" "+objectB+" "+sectorA+" "+sectorB).c_str());
+        displayString(5,0.1+0.2*i,("object "+objectA+" ,sector "+sectorA+" is soon to have contact with  "+objectB+" ,sector "+sectorB).c_str());
     }
 
     glutSwapBuffers();
