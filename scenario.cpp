@@ -46,7 +46,8 @@ bool bothVerticesAreOutOfRange(Vertex& a1,Vertex& a2,
 
 void Scenario::step()
 {
-    
+   
+
    _breachedBoundingSpheres.clear();
    _breachedConvexHulls.clear();
    _collisonPoints.clear();
@@ -143,64 +144,31 @@ void Scenario::step()
         // carry out minimisation between line segments
         //  
         
-        //
-        // (if sufficiently close then) 
-
-            auto result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
-            auto result2 = _objects[bsecs.first.first]._sectors[bsecs.second.first].generateNextLoD(); 
-            if((result1+result2)==0)
+        for(int i=0;i< Asector.size()-1;i++)
+        {
+            auto pi1  = Asector[i];
+            auto pi2  = Asector[i+1];
+            for(int j=0;j< Bsector.size()-1;j++)
             {
-                // i.e if there are not more levels of detail to go through then 
-                // we actually need to get collision points :)
+                 auto pj1  = Bsector[j];
+                 auto pj2  = Bsector[j+1];
+     
+                 _edgesUnderConsideration.emplace_back(pi1,pi2);
+                 _edgesUnderConsideration.emplace_back(pj1,pj2);
+
+                 auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
+                 auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
+                 float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
+                 if(distance<0.01)
+                 {
+                     auto result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
+                     auto result2 = _objects[bsecs.first.first ]._sectors[bsecs.second.first].generateNextLoD(); 
+                 }
             }
-         
+        }
     }
     
 
-    // --------------------------------------------------------------------------------
-   // at this point we should remove duplicates that were obtained in the above procedcure
-    //--------------------------------------------------------------------------------
-
-/*
- *
- * THIS IS OLD CODE THAT WAS RELEVANT ONLY WHEN GOING THROUGH THE TRI-LEVEL
- * OF DETAIL APPROACH.
-   for(auto & pairOfPairs: _breachedConvexHulls)
-   {
-       auto pair = pairOfPairs.first;
-       auto arrayOfRanges = pairOfPairs.second; // the first two correspong to A nad the last two to B
-       auto A = _objects[pair.first].getWorldVertices();
-       auto B = _objects[pair.second].getWorldVertices();
-       // for each line segment in A and each line segment in B
-       // we calculate the minimum distance between line segments
-       for(int i=0;i< A.size();i++)
-       {
-           std::pair<float,float> thetaRangeA = std::make_pair(std::get<0>(arrayOfRanges),std::get<1>(arrayOfRanges));
-           auto pi1  = A[i];
-           auto pi2  = A[i+1 == A.size() ? 0 : i+1];
-           if(bothVerticesAreOutOfRange(pi1,pi2,thetaRangeA)) continue;
-           for(int j=0;j< B.size();j++)
-           {
-                std::pair<float,float> thetaRangeB = std::make_pair(std::get<2>(arrayOfRanges),std::get<3>(arrayOfRanges));
-                auto pj1  = B[j];
-                auto pj2  = B[j+1 == B.size() ? 0 : j+1];
-                if(bothVerticesAreOutOfRange(pj1,pj2,thetaRangeB)) continue;
-    
-                _edgesUnderConsideration.emplace_back(pi1,pi2);
-                _edgesUnderConsideration.emplace_back(pj1,pj2);
-
-                auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
-                auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
-                float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
-                if(distance<0.01)
-                {
-                    _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
-                    _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));
-                }
-           }
-       }
-   }
-  */ 
 }
 
 void Scenario::addObjectToScenario(Polygon&                geometry,

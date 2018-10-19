@@ -128,7 +128,7 @@ int main(int argc, char** argv)
     verts1.push_back(Vertex(0,0.7));
     verts1.push_back(Vertex(-0.5,0.9));
     verts1.push_back(Vertex(-1,1));
-    verts1.push_back(Vertex(-0.5,0));
+    verts1.push_back(Vertex(-1.5,0));
     verts1.push_back(Vertex(-1,-1));
     verts1.push_back(Vertex(0,-0.7));
     verts1.push_back(Vertex(1,-1));

@@ -94,7 +94,7 @@ void demolish::world::Object::fillSectors()
     _sectors[sectorIndex]._finestLoD = tempVec;
     finestLoD.clear();
 
-    vertexIndex--;sectorIndex++;
+    vertexIndex;sectorIndex++;
     if(sectorIndex==hullVertsSz) sectorIndex--;
     while(geometryVerts[vertexIndex].getTheta()<=2*M_PI) 
     {
