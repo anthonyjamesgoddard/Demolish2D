@@ -131,14 +131,18 @@ void Scenario::step()
 
     for(auto&bsecs:_breachedSectors)
     {
+        
+        auto locOfA = _objects[bsecs.first.first].getLocation();
+        auto locOfB = _objects[bsecs.first.second].getLocation();
+        auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first].obtainCurrentLevelOfDetailInWorld(locOfA);
+        auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second].obtainCurrentLevelOfDetailInWorld(locOfB);
+        // Asector and Bsector give us the world vertices of the sector
 
-        auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first]._LoD.back();
-        auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD.back();
         // Asector and Bsector are a vector of vertices (shared_ptrs)
 
         // carry out minimisation between line segments
         //  
-        // convert to world!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+        
         //
         // (if sufficiently close then) 
 

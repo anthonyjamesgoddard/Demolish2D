@@ -26,7 +26,8 @@ public:
     Sector(float theta1,float theta2);
     int                                                     generateNextLoD();
     void                                                    displayContents();
-    void                                                    prepareSector(); // called after filling
+    void                                                    prepareSector();
+    std::vector<Vertex>                                     obtainCurrentLevelOfDetailInWorld(std::array<float,2> location);
 };
 
 #endif

@@ -71,3 +71,14 @@ void demolish::world::Sector::prepareSector()
     _radiallyOrderedLoD = _finestLoD;
     std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compTheta); 
 }
+
+std::vector<Vertex> demolish::world::Sector::obtainCurrentLevelOfDetailInWorld(std::array<float,2> location)
+{
+    std::vector<Vertex> returnVector;
+    for(auto&vecpointer:_LoD.back())
+    {
+        returnVector.push_back(Vertex(vecpointer->getX() + std::get<0>(location),
+                                      vecpointer->getY() + std::get<1>(location)));
+    }
+    return returnVector;
+}
