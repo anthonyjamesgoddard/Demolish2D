@@ -57,11 +57,12 @@ void demolish::world::Object::fillSectors()
 
     int sectorIndex=0;
     int vertexIndex=0;
-   
+    bool needtominus = true;
     while(sectorIndex<_sectors.size()-1)
     {
         if(geometryVerts[vertexIndex].getTheta() <= thetaHi)
         {
+            needtominus = true;
             if(geometryVerts[vertexIndex].getTheta() < thetaLow)
             {
                 vertexIndex++;
@@ -80,6 +81,7 @@ void demolish::world::Object::fillSectors()
         }
         else
         {
+            needtominus = false;
             vertexIndex--;
             auto tempVec = finestLoD;
             _sectors[sectorIndex]._finestLoD = tempVec;
@@ -89,14 +91,15 @@ void demolish::world::Object::fillSectors()
             thetaLow = _sectors[sectorIndex]._theta1;
         }
     }
-
+    if(needtominus) vertexIndex--;
     auto tempVec = finestLoD;
     _sectors[sectorIndex]._finestLoD = tempVec;
     finestLoD.clear();
 
-    vertexIndex;sectorIndex++;
+    sectorIndex++;
+    
     if(sectorIndex==hullVertsSz) sectorIndex--;
-    while(geometryVerts[vertexIndex].getTheta()<=2*M_PI) 
+    while(geometryVerts[vertexIndex].getTheta()<=2*M_PI ) 
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
@@ -117,6 +120,11 @@ void demolish::world::Object::fillSectors()
 
         finestLoD.push_back(vp);
         vertexIndex++;
+        if(vertexIndex == geometryVertsSz)
+        {
+            vertexIndex=0;
+            break;
+        }
     }
     _sectors[sectorIndex]._finestLoD = finestLoD;
     for(auto&s:_sectors)

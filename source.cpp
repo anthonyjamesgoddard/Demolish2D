@@ -204,6 +204,7 @@ int main(int argc, char** argv)
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );
+    
     std::cout << "//////////////////////// OBJECT PROPS ///////////////////////" << std::endl;
     std::cout << std::endl;
     std::cout << "//////////////////////// OBJECT 1 ///////////////////////" << std::endl;
@@ -215,6 +216,7 @@ int main(int argc, char** argv)
     std::cout << "//////////////////////// OBJECT 3 ///////////////////////" << std::endl;
     std::cout << std::endl;
     obj3.displayProperties();
+    
     glutMainLoop( );
 
     return 0;

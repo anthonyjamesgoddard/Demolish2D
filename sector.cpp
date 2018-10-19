@@ -35,6 +35,8 @@ int demolish::world::Sector::generateNextLoD()
     if(_radiallyOrderedLoD.size() == 1)
     {    
         _LoD.push_back(_finestLoD);
+        _radiallyOrderedLoD.clear();
+        _detailLevelIndex++;
         return 1;
     }
     auto currentLoD = _LoD[_detailLevelIndex];
@@ -69,6 +71,9 @@ void demolish::world::Sector::displayContents()
 void demolish::world::Sector::prepareSector()
 {
     _radiallyOrderedLoD = _finestLoD;
+    std::cout << _radiallyOrderedLoD.size() << std::endl;
+    _radiallyOrderedLoD.pop_back();
+    _radiallyOrderedLoD.erase(_radiallyOrderedLoD.begin());
     std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compTheta); 
 }
 
