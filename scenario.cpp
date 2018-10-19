@@ -48,12 +48,20 @@ void Scenario::step()
 {
    
 
+   // clear old data 
    _breachedBoundingSpheres.clear();
    _breachedConvexHulls.clear();
    _collisonPoints.clear();
    _breachedCHPoints.clear();   
    _edgesUnderConsideration.clear();
    _breachedSectors.clear();
+
+   // reset levels of detail
+   for(auto&obj:_objects)
+   {
+       obj.reset();
+   }
+
    float ri,rj;
    std::array<float,2> locationi, locationj;
    int numberOfObjects = _objects.size();
@@ -162,7 +170,12 @@ void Scenario::step()
                  if(distance<0.01)
                  {
                      auto result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
-                     auto result2 = _objects[bsecs.first.first ]._sectors[bsecs.second.first].generateNextLoD(); 
+                     auto result2 = _objects[bsecs.first.first ]._sectors[bsecs.second.first].generateNextLoD();
+                     if((result1+result2)==0)
+                     {
+                        _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
+                        _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));
+                     }
                  }
             }
         }

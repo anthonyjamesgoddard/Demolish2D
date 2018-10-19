@@ -25,26 +25,40 @@ demolish::world::Sector::Sector(float theta1, float theta2)
 
 int demolish::world::Sector::generateNextLoD()
 {
-    // we need to prune the vertices with the largest values of the radius 
-    // from the finest level of detail
     
-    if(_radiallyOrderedLoD.size() == 0)
+    if(_detailLevelIndex == _LoD.size()-1) // if we do not have the next level of detail, get it and store in cASH
     {
-        return 0;
-    }
-    if(_radiallyOrderedLoD.size() == 1)
-    {    
-        _LoD.push_back(_finestLoD);
-        _radiallyOrderedLoD.clear();
+        if(_radiallyOrderedLoD.size() == 0)
+        {
+            return 0;
+        }
+        if(_radiallyOrderedLoD.size() == 1)
+        {    
+            _LoD.push_back(_finestLoD);
+            _radiallyOrderedLoD.clear();
+            _detailLevelIndex++;
+            return 1;
+        }
+        auto currentLoD = _LoD[_detailLevelIndex];
+        currentLoD.push_back(_radiallyOrderedLoD.back());
+        _radiallyOrderedLoD.pop_back();
         _detailLevelIndex++;
+        _LoD.push_back(currentLoD);
         return 1;
     }
-    auto currentLoD = _LoD[_detailLevelIndex];
-    currentLoD.push_back(_radiallyOrderedLoD.back());
-    _radiallyOrderedLoD.pop_back();
-    _detailLevelIndex++;
-    _LoD.push_back(currentLoD);
-    return 1;
+    else // so we do have it
+    { 
+        _detailLevelIndex++;
+        if(_detailLevelIndex <  _finestLoD.size()-1)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
 }
 
 void demolish::world::Sector::displayContents()
@@ -79,7 +93,7 @@ void demolish::world::Sector::prepareSector()
 std::vector<Vertex> demolish::world::Sector::obtainCurrentLevelOfDetailInWorld(std::array<float,2> location)
 {
     std::vector<Vertex> returnVector;
-    for(auto&vecpointer:_LoD.back())
+    for(auto&vecpointer:_LoD[_detailLevelIndex])
     {
         returnVector.push_back(Vertex(vecpointer->getX() + std::get<0>(location),
                                       vecpointer->getY() + std::get<1>(location)));

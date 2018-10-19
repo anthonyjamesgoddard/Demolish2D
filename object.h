@@ -64,7 +64,7 @@ public:
 
     // operators
     Object&                         operator=(const Object &o);
-
+    void                            reset();
     // this is most likely going to be a temp function 
     // that allows us to move the object manually.
     void                            manuallyMoveObject(float x,float y);

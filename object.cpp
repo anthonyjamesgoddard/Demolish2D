@@ -287,10 +287,10 @@ void demolish::world::Object::draw()
     {
             glColor3f(0,1,1);
             glBegin(GL_LINE_STRIP);
-            for(int k=0;k<_sectors[i]._LoD.back().size();k++)
+            for(int k=0;k<_sectors[i]._LoD[_sectors[i]._detailLevelIndex].size();k++)
             {        
-                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD.back()[k]->getX(),
-                           std::get<1>(_location) + _sectors[i]._LoD.back()[k]->getY());
+                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD[_sectors[i]._detailLevelIndex][k]->getX(),
+                           std::get<1>(_location) + _sectors[i]._LoD[_sectors[i]._detailLevelIndex][k]->getY());
             }
             glEnd();
         
@@ -351,6 +351,14 @@ demolish::world::Object& demolish::world::Object::operator=(const demolish::worl
     // considering this is only used to form a collison pair we 
     // can "fill this in as we go along"
     return *this;
+}
+
+void demolish::world::Object::reset()
+{
+    for(auto&sec:_sectors)
+    {
+        sec._detailLevelIndex = 0;
+    }
 }
 
 void demolish::world::Object::manuallyMoveObject(float x,float y)
