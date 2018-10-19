@@ -71,10 +71,9 @@ void demolish::world::Sector::displayContents()
 void demolish::world::Sector::prepareSector()
 {
     _radiallyOrderedLoD = _finestLoD;
-    std::cout << _radiallyOrderedLoD.size() << std::endl;
     _radiallyOrderedLoD.pop_back();
     _radiallyOrderedLoD.erase(_radiallyOrderedLoD.begin());
-    std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compTheta); 
+    std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compRadius); 
 }
 
 std::vector<Vertex> demolish::world::Sector::obtainCurrentLevelOfDetailInWorld(std::array<float,2> location)
