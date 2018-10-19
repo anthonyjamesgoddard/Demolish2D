@@ -7,11 +7,42 @@ bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
     return a->getRadius() < b->getRadius();
 }
 
+bool compTheta(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
+{
+    return a->getRadius() < b->getRadius();
+}
+
+demolish::world::Sector::Sector()
+{
+    _detailLevelIndex = 0;
+}
+
+demolish::world::Sector::Sector(float theta1, float theta2)
+{
+    _theta1 = theta1; _theta2 = theta2;
+    _detailLevelIndex = 0;
+}
+
 int demolish::world::Sector::generateNextLoD()
 {
     // we need to prune the vertices with the largest values of the radius 
     // from the finest level of detail
-    return 0;
+    
+    if(_radiallyOrderedLoD.size() == 0)
+    {
+        return 0;
+    }
+    if(_radiallyOrderedLoD.size() == 1)
+    {    
+        _LoD.push_back(_finestLoD);
+        return 1;
+    }
+    auto currentLoD = _LoD[_detailLevelIndex];
+    currentLoD.push_back(_radiallyOrderedLoD.back());
+    _radiallyOrderedLoD.pop_back();
+    _detailLevelIndex++;
+    _LoD.push_back(currentLoD);
+    return 1;
 }
 
 void demolish::world::Sector::displayContents()
@@ -33,4 +64,10 @@ void demolish::world::Sector::displayContents()
            _LoD[i][j]->displayProperties();
        }
    }
+}
+
+void demolish::world::Sector::prepareSector()
+{
+    _radiallyOrderedLoD = _finestLoD;
+    std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compTheta); 
 }

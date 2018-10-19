@@ -96,7 +96,7 @@ void demolish::world::Object::fillSectors()
 
     vertexIndex--;sectorIndex++;
     if(sectorIndex==hullVertsSz) sectorIndex--;
-    while(geometryVerts[vertexIndex].getTheta()<=2*M_PI)
+    while(geometryVerts[vertexIndex].getTheta()<=2*M_PI) 
     {
         std::shared_ptr<Vertex> vp(new Vertex(geometryVerts[vertexIndex].getX(),
                                               geometryVerts[vertexIndex].getY()));
@@ -119,6 +119,10 @@ void demolish::world::Object::fillSectors()
         vertexIndex++;
     }
     _sectors[sectorIndex]._finestLoD = finestLoD;
+    for(auto&s:_sectors)
+    {
+        s.prepareSector();
+    }
 }
 
 
@@ -216,8 +220,8 @@ void demolish::world::Object::calculateMaterialParameters(float density)
 void demolish::world::Object::draw()
 {
     // draw the object
-    /*
-    glColor3f(1,1,1);
+    
+    glColor3f(0.1,0.1,0.3);
     auto verts = _geometry.getVertices();
     glBegin(GL_LINE_LOOP);
     for(int i=0;i<verts.size();i++)
@@ -228,7 +232,7 @@ void demolish::world::Object::draw()
     
     // draw the convex hull
     glEnd();
-    */
+    
     /*
     glColor3f(1,0,0);
     verts = _convexHull.getVertices();
@@ -274,14 +278,12 @@ void demolish::world::Object::draw()
     for(int i = 0; i < _sectors.size();i++)
     {
             glColor3f(0,1,1);
-            glBegin(GL_LINES);
+            glBegin(GL_LINE_STRIP);
             for(int k=0;k<_sectors[i]._LoD.back().size();k++)
             {        
                 glVertex2f(std::get<0>(_location) + _sectors[i]._LoD.back()[k]->getX(),
                            std::get<1>(_location) + _sectors[i]._LoD.back()[k]->getY());
             }
-            glVertex2f(std::get<0>(_location),
-                       std::get<1>(_location));
             glEnd();
         
     }

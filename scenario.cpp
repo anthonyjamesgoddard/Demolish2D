@@ -136,9 +136,20 @@ void Scenario::step()
         auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second]._LoD.back();
         // Asector and Bsector are a vector of vertices (shared_ptrs)
 
-        auto result = _objects[bsecs.first.first]._sectors[bsecs.second.first].generateNextLoD(); 
+        // carry out minimisation between line segments
+        //  
+        // convert to world!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+        //
+        // (if sufficiently close then) 
 
-        
+            auto result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
+            auto result2 = _objects[bsecs.first.first]._sectors[bsecs.second.first].generateNextLoD(); 
+            if((result1+result2)==0)
+            {
+                // i.e if there are not more levels of detail to go through then 
+                // we actually need to get collision points :)
+            }
+         
     }
     
 
