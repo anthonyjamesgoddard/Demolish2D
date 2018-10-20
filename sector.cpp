@@ -9,7 +9,7 @@ bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
 
 bool compTheta(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
 {
-    return a->getRadius() < b->getRadius();
+    return a->getTheta() < b->getTheta();
 }
 
 demolish::world::Sector::Sector()
@@ -35,12 +35,13 @@ int demolish::world::Sector::generateNextLoD()
         if(_radiallyOrderedLoD.size() == 1)
         {    
             _LoD.push_back(_finestLoD);
-            _radiallyOrderedLoD.clear();
+            _radiallyOrderedLoD.pop_back();
             _detailLevelIndex++;
             return 1;
         }
         auto currentLoD = _LoD[_detailLevelIndex];
         currentLoD.push_back(_radiallyOrderedLoD.back());
+        std::sort(currentLoD.begin(),currentLoD.end(),compTheta);
         _radiallyOrderedLoD.pop_back();
         _detailLevelIndex++;
         _LoD.push_back(currentLoD);
@@ -48,16 +49,8 @@ int demolish::world::Sector::generateNextLoD()
     }
     else // so we do have it
     { 
-        _detailLevelIndex++;
-        if(_detailLevelIndex <  _finestLoD.size()-1)
-        {
-            return 0;
-        }
-        else
-        {
+            _detailLevelIndex++;
             return 1;
-        }
-
     }
 }
 

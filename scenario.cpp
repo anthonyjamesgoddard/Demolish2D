@@ -106,6 +106,8 @@ void Scenario::step()
             //
             // BEGIN SINGLE PENALTY RUN
             //
+            // CAN WE AVOID DOING THIS?!
+            //
 
             for(int i=0;i< A.size();i++)
             {
@@ -130,28 +132,60 @@ void Scenario::step()
                                                                           pj1.getAssociatedSectorIndex());
                         _breachedSectors.emplace_back(pair,sectorPair);
                         _breachedConvexHulls.emplace_back(pair,thetaRanges);
-                        _breachedCHPoints.push_back(std::get<0>(minimumDistanceVertices));
                     }
                }
            }
        }
    }
-  
+ 
+    auto _collison = _breachedSectors;
+    _collison.clear();
+
+    int aNumberWeNeedToActuallyCorrectlyDefine = 5;
 
     for(auto&bsecs:_breachedSectors)
     {
-        
+        int result1=1,result2=1;
+        auto locOfA = _objects[bsecs.first.first].getLocation();
+        auto locOfB = _objects[bsecs.first.second].getLocation();
+        for(int m=0;m<aNumberWeNeedToActuallyCorrectlyDefine;m++)
+        {
+            auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first].obtainCurrentLevelOfDetailInWorld(locOfA);
+            auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second].obtainCurrentLevelOfDetailInWorld(locOfB);
+            for(int i=0;i< Asector.size()-1;i++)
+            {
+                auto pi1  = Asector[i];
+                auto pi2  = Asector[i+1];
+                for(int j=0;j< Bsector.size()-1;j++)
+                {
+                     auto pj1  = Bsector[j];
+                     auto pj2  = Bsector[j+1];
+         
+                     auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
+                     auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
+                     float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
+                     if(distance<0.01)
+                     {
+                         result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
+                         result2 = _objects[bsecs.first.first ]._sectors[bsecs.second.first].generateNextLoD();
+                         if((result1+result2)==0)
+                         {
+                             _collison.push_back(bsecs);
+                             m = aNumberWeNeedToActuallyCorrectlyDefine;
+                         }
+                     }
+                }
+            }
+        }
+    }
+    
+
+    for(auto&bsecs:_collison)
+    {
         auto locOfA = _objects[bsecs.first.first].getLocation();
         auto locOfB = _objects[bsecs.first.second].getLocation();
         auto Asector = _objects[bsecs.first.first]._sectors[bsecs.second.first].obtainCurrentLevelOfDetailInWorld(locOfA);
         auto Bsector = _objects[bsecs.first.second]._sectors[bsecs.second.second].obtainCurrentLevelOfDetailInWorld(locOfB);
-        // Asector and Bsector give us the world vertices of the sector
-
-        // Asector and Bsector are a vector of vertices (shared_ptrs)
-
-        // carry out minimisation between line segments
-        //  
-        
         for(int i=0;i< Asector.size()-1;i++)
         {
             auto pi1  = Asector[i];
@@ -160,28 +194,16 @@ void Scenario::step()
             {
                  auto pj1  = Bsector[j];
                  auto pj2  = Bsector[j+1];
-     
-                 _edgesUnderConsideration.emplace_back(pi1,pi2);
-                 _edgesUnderConsideration.emplace_back(pj1,pj2);
-
+       
                  auto minparams = minimumDistanceBetweenLineSegments(pi1,pi2,pj1,pj2,100,0.001);        
                  auto minimumDistanceVertices = verticesOnLineSegments(pi1,pi2,pj1,pj2,minparams);
                  float distance = calculateDistanceBetweenVertices(minimumDistanceVertices);
-                 if(distance<0.01)
-                 {
-                     auto result1 = _objects[bsecs.first.second]._sectors[bsecs.second.second].generateNextLoD(); 
-                     auto result2 = _objects[bsecs.first.first ]._sectors[bsecs.second.first].generateNextLoD();
-                     if((result1+result2)==0)
-                     {
-                        _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
-                        _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));
-                     }
-                 }
+                 if(distance<0.01){
+                 _collisonPoints.push_back(std::get<0>(minimumDistanceVertices));
+                 _collisonPoints.push_back(std::get<1>(minimumDistanceVertices));}
             }
         }
     }
-    
-
 }
 
 void Scenario::addObjectToScenario(Polygon&                geometry,

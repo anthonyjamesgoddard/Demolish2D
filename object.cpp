@@ -229,7 +229,7 @@ void demolish::world::Object::draw()
 {
     // draw the object
     
-    glColor3f(0.1,0.1,0.3);
+    glColor3f(1,1,1);
     auto verts = _geometry.getVertices();
     glBegin(GL_LINE_LOOP);
     for(int i=0;i<verts.size();i++)
@@ -285,12 +285,13 @@ void demolish::world::Object::draw()
    
     for(int i = 0; i < _sectors.size();i++)
     {
+            auto drawvec = _sectors[i].obtainCurrentLevelOfDetailInWorld(_location);
             glColor3f(0,1,1);
             glBegin(GL_LINE_STRIP);
-            for(int k=0;k<_sectors[i]._LoD[_sectors[i]._detailLevelIndex].size();k++)
+            for(int k=0;k<drawvec.size();k++)
             {        
-                glVertex2f(std::get<0>(_location) + _sectors[i]._LoD[_sectors[i]._detailLevelIndex][k]->getX(),
-                           std::get<1>(_location) + _sectors[i]._LoD[_sectors[i]._detailLevelIndex][k]->getY());
+                glVertex2f(drawvec[k].getX(),
+                           drawvec[k].getY());
             }
             glEnd();
         
