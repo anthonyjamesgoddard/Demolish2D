@@ -3,11 +3,11 @@
 #include"glut.h"
 #include"render.h"
 #include"matrix.h"
-
+#include"timer.h"
 using namespace demolish;
 
 world::Scenario scenario(0.1,10);
-
+GameTimer timer;
 void displayfunc(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -16,9 +16,9 @@ void displayfunc(void)
     glColor3f(1,1,1);
     glBegin(GL_LINES);
     glVertex2f(1,1);
-    glVertex2f(11,1);
+    glVertex2f(49,1);
     glEnd();
-
+/*
     displayString( 0.2, 0.1, "WASD to move" );
     if(scenario.breachedSpheres())
     {
@@ -32,6 +32,8 @@ void displayfunc(void)
     {
         displayString(3,0.1,"Collision!!!!!!!!!!!!!!!!!!!");
     }
+    */
+
     auto cpsvec = scenario.obtainCollisionPoints();
     for(auto&cps:cpsvec)
     { 
@@ -41,6 +43,7 @@ void displayfunc(void)
         glVertex2f(cps.getX(),cps.getY());
         glEnd();
     }
+    /*
     cpsvec = scenario.obtainCHCollisionPoints();
     for(auto&cps:cpsvec)
     { 
@@ -70,7 +73,7 @@ void displayfunc(void)
         std::string sectorB = std::to_string(cps.second.second);
         displayString(5,0.1+0.2*i,("object "+objectA+" ,sector "+sectorA+" is soon to have contact with  "+objectB+" ,sector "+sectorB).c_str());
     }
-
+*/
     glutSwapBuffers();
 }
 
@@ -82,8 +85,6 @@ void physics(void)
 {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-
-    
     scenario.step();
 
     glutPostRedisplay();
@@ -172,9 +173,19 @@ int main(int argc, char** argv)
     verts3.push_back(Vertex(0.8   ,0.7 ));
     verts3.push_back(Vertex(1     ,0.9));
     verts3.push_back(Vertex(0.8   ,1 ));
-    std::array<float,2> locObj1 = {5,5};
-    std::array<float,2> locObj2 = {3,8};
-    std::array<float,2> locObj3 = {8,3};
+
+    std::array<float,2> locObj1 = {15,5};
+    std::array<float,2> locObj2 = {3,18};
+    std::array<float,2> locObj3 = {8,30};
+    std::array<float,2> locObj4 = {45,35};
+    std::array<float,2> locObj5 = {36,38};
+    std::array<float,2> locObj6 = {8,13};
+    std::array<float,2> locObj7 = {15,34};
+    std::array<float,2> locObj8 = {15,18};
+    std::array<float,2> locObj9 = {16,35};
+    std::array<float,2> locObj10 = {32,14};
+    std::array<float,2> locObj11 = {25,26};
+    std::array<float,2> locObj12 = {23,34};
 
     auto poly1= geometry::Polygon(verts1);
     auto poly2= geometry::Polygon(verts2);
@@ -183,16 +194,33 @@ int main(int argc, char** argv)
     auto obj1 = world::Object(poly1,locObj1);
     auto obj2 = world::Object(poly2,locObj2);
     auto obj3 = world::Object(poly3,locObj3);
+    auto obj4 = world::Object(poly1,locObj4);
+    auto obj5 = world::Object(poly2,locObj5);
+    auto obj6 = world::Object(poly3,locObj6);
+    auto obj7 = world::Object(poly1,locObj7);
+    auto obj8 = world::Object(poly2,locObj8);
+    auto obj9 = world::Object(poly3,locObj9);
+    auto obj10 = world::Object(poly1,locObj10);
+    auto obj11 = world::Object(poly2,locObj11);
+    auto obj12 = world::Object(poly3,locObj12);
 
     scenario.addObjectToScenario(obj1);
     scenario.addObjectToScenario(obj2);
     scenario.addObjectToScenario(obj3);
-
+    scenario.addObjectToScenario(obj4);
+    scenario.addObjectToScenario(obj5);
+    scenario.addObjectToScenario(obj6);
+    scenario.addObjectToScenario(obj7);
+    scenario.addObjectToScenario(obj8);
+    scenario.addObjectToScenario(obj9);
+    scenario.addObjectToScenario(obj10);
+    scenario.addObjectToScenario(obj11);
+    scenario.addObjectToScenario(obj12);
 
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE );
-    glutInitWindowSize( 1024, 768 );
-    glutCreateWindow( "demolish 1.0" );
+    glutInitWindowSize( 1920, 1080 );
+    glutCreateWindow( "demolish 1.001" );
     glutDisplayFunc(displayfunc);
     glutKeyboardFunc(keyboard);
     glutIdleFunc(physics);
@@ -200,7 +228,7 @@ int main(int argc, char** argv)
     glMatrixMode( GL_PROJECTION );
     glPushMatrix( );
     glLoadIdentity( );
-    gluOrtho2D( 0, 12, 0, 10 );
+    gluOrtho2D( 0, 50, 0, 38 );
     glMatrixMode( GL_MODELVIEW );
     glPushMatrix( );
     glLoadIdentity( );

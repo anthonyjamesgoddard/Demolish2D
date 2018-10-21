@@ -112,7 +112,7 @@ std::pair<float,float> demolish::world::minimumDistanceBetweenLineSegments(Verte
     Matrix2x2 I(1,0,0,1);
     Matrix2x2 hf(AB*AB*2,AB*CD*-2,AB*CD*-2,CD*CD*2);
     Vertex x(0.333,0.333);
-    for(int i=0;i<2;i++)
+    for(int i=0;i<10;i++)
     {
         Vertex gf(CD*AB*-2*x.getY() + AB*AB*2*x.getX() + CA*AB*2,
                   CD*AB*-2*x.getX() + CD*CD*2*x.getY() - CA*CD*2);

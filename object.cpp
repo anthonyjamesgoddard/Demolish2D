@@ -228,7 +228,7 @@ void demolish::world::Object::calculateMaterialParameters(float density)
 void demolish::world::Object::draw()
 {
     // draw the object
-    
+    /*
     glColor3f(1,1,1);
     auto verts = _geometry.getVertices();
     glBegin(GL_LINE_LOOP);
@@ -240,7 +240,7 @@ void demolish::world::Object::draw()
     
     // draw the convex hull
     glEnd();
-    
+    */
     /*
     glColor3f(1,0,0);
     verts = _convexHull.getVertices();
@@ -266,7 +266,7 @@ void demolish::world::Object::draw()
 
     // draw the bounding radius
     //
-    /*
+  /*  
     glColor3f(1,1,0);
     glBegin(GL_LINE_LOOP);
     float theta = 0;
