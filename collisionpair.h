@@ -1,10 +1,9 @@
-#ifndef _COLLISIONPAIR
-#define _COLLISIONPAIR
+#pragma once
 
 #include<vector>
-#include"vertex.h"
-#include"object.h"
-#include"matrix.h"
+#include"demolish/geometry/vertex.h"
+#include"demolish/object.h"
+#include"demolish/matrix.h"
 using demolish::geometry::Vertex;
 using demolish::world::Object;
 

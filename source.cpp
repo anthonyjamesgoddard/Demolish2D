@@ -1,9 +1,9 @@
 #include<iostream>
-#include"scenario.h"
-#include"glut.h"
-#include"render.h"
-#include"matrix.h"
-#include"timer.h"
+#include"demolish2D/scenario.h"
+#include"demolish2D/glut.h"
+#include"demolish2D/render.h"
+#include"demolish2D/matrix.h"
+#include"demolish2D/timer.h"
 using namespace demolish;
 
 world::Scenario scenario(0.1,10);
