@@ -1,14 +1,10 @@
-#ifndef _SCENARIO
-#define _SCENARIO
+#pragma once
 
-#include "object.h"
+#include "demolish/world/object.h"
+
 namespace demolish {
 namespace world {
-class Scenario;
-}
-}  // namespace demolish
-
-class demolish::world::Scenario {
+class Scenario {
 private:
     float _timestep;
     int _numberOfIterations;
@@ -54,5 +50,5 @@ public:
         return _breachedSectors;
     }
 };
-
-#endif
+}  // namespace world
+}  // namespace demolish

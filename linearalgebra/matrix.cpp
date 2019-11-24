@@ -1,4 +1,4 @@
-#include"matrix.h"
+#include"demolish/linearalgebra/matrix.h"
 
 using demolish::linearalgebra::Matrix2x2;
 using demolish::geometry::Vertex;

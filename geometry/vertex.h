@@ -6,7 +6,7 @@
 
 namespace demolish {
 namespace geometry {
-class vertex {
+class Vertex {
 private:
     float _x, _y;                // cartesian
     float _r, _theta;            // polar (w.r.t centroid of polygon)
