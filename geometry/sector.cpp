@@ -1,6 +1,9 @@
-#include"sector.h"
+#include"demolish/geometry/sector.h"
 #include<algorithm>
 #include<iostream>
+
+using demolish::geometry::Sector;
+using demolish::geometry::Vertex;
 
 bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
 {
@@ -12,18 +15,18 @@ bool compTheta(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
     return a->getTheta() < b->getTheta();
 }
 
-demolish::world::Sector::Sector()
+Sector::Sector()
 {
     _detailLevelIndex = 0;
 }
 
-demolish::world::Sector::Sector(float theta1, float theta2)
+Sector::Sector(float theta1, float theta2)
 {
     _theta1 = theta1; _theta2 = theta2;
     _detailLevelIndex = 0;
 }
 
-int demolish::world::Sector::generateNextLoD()
+int Sector::generateNextLoD()
 {
     
     if(_detailLevelIndex == _LoD.size()-1) // if we do not have the next level of detail, get it and store in cASH
@@ -54,7 +57,7 @@ int demolish::world::Sector::generateNextLoD()
     }
 }
 
-void demolish::world::Sector::displayContents()
+void Sector::displayContents()
 {
    std::cout << _theta1 << " " << _theta2 << std::endl; 
    std::cout << "the finest level of detail is:" << std::endl;
@@ -75,7 +78,7 @@ void demolish::world::Sector::displayContents()
    }
 }
 
-void demolish::world::Sector::prepareSector()
+void Sector::prepareSector()
 {
     _radiallyOrderedLoD = _finestLoD;
     _radiallyOrderedLoD.pop_back();
@@ -83,7 +86,7 @@ void demolish::world::Sector::prepareSector()
     std::sort(_radiallyOrderedLoD.begin(),_radiallyOrderedLoD.end(),compRadius); 
 }
 
-std::vector<Vertex> demolish::world::Sector::obtainCurrentLevelOfDetailInWorld(std::array<float,2> location)
+std::vector<Vertex> Sector::obtainCurrentLevelOfDetailInWorld(std::array<float,2> location)
 {
     std::vector<Vertex> returnVector;
     for(auto&vecpointer:_LoD[_detailLevelIndex])

@@ -1,3 +1,12 @@
-# demolish2d
+# demolish
 
-A toy problem setting for an experimental adaptive data structure for non-convex collision detection. A 2D setting is chosen to help abstract from the details that are more complex in 3D.
+A 2D physics engine (WIP) with an experimental progressive boundary resolution algorithm
+
+To generate a build
+    cmake -Bbuild
+    make -C build
+
+To generate documentation:
+    cd build
+    make docs
+

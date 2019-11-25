@@ -1,6 +1,6 @@
-#include"matrix.h"
+#include"demolish/utils/matrix.h"
 
-using demolish::linearalgebra::Matrix2x2;
+using demolish::utils::Matrix2x2;
 using demolish::geometry::Vertex;
 
 Matrix2x2::Matrix2x2(float a11,
