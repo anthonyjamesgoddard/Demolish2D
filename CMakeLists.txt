@@ -16,3 +16,5 @@ add_subdirectory(geometry)
 add_subdirectory(utils)
 add_subdirectory(world)
 add_subdirectory(demolish)
+
+add_subdirectory(docs)
