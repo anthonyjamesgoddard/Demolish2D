@@ -1,4 +1,4 @@
-#include "demolish/vertex.h"
+#include "demolish/geometry/vertex.h"
 
 #include <cmath>
 

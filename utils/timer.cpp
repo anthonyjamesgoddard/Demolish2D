@@ -1,5 +1,4 @@
 #include "demolish/utils/timer.h"
-#include <time.h>
 
 using demolish::utils::Timer;
 
@@ -7,7 +6,7 @@ constexpr float OONPS = 1E-9;  // ONE_OVER_NANOSECONDS_PER_SECOND
 
 Timer::Timer() {
     _deltaTime = -1.0;
-    clock_gettime(CLOCK_REALTIME, &baseTime);
+    clock_gettime(CLOCK_REALTIME, &_baseTime);
     _pausedTime = {0, 0};
     _prevTime = {0, 0};
     _currTime = {0, 0};
@@ -15,17 +14,17 @@ Timer::Timer() {
 }
 float Timer::gameTime() {
     if (_stopped) {
-        return (_stopTime.tv_sec - _pausedTime.tv_sec) - baseTime.tv_sec +
-               ((_stopTime.tv_nsec - _pausedTime.tv_nsec) - baseTime.tv_nsec) *
+        return (_stopTime.tv_sec - _pausedTime.tv_sec) - _baseTime.tv_sec +
+               ((_stopTime.tv_nsec - _pausedTime.tv_nsec) - _baseTime.tv_nsec) *
                    OONPS;
     } else {
-        return (_currTime.tv_sec - baseTime.tv_sec) +
-               (_currTime.tv_nsec - baseTime.tv_nsec) * OONPS;
+        return (_currTime.tv_sec - _baseTime.tv_sec) +
+               (_currTime.tv_nsec - _baseTime.tv_nsec) * OONPS;
     }
 }
 void Timer::reset() {
     _deltaTime = -1.0;
-    clock_gettime(CLOCK_REALTIME, &baseTime);
+    clock_gettime(CLOCK_REALTIME, &_baseTime);
     _pausedTime = {0, 0};
     _prevTime = {0, 0};
     _currTime = {0, 0};

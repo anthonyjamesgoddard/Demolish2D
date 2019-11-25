@@ -12,8 +12,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
 # these are in a specific order (we use the fact that
 # linear algebra will inherit utils and geometry
 # will inherit linear algebra which will inherit utils
-add_subdirectory(utils)
-add_subdirectory(linearalgebra)
 add_subdirectory(geometry)
+add_subdirectory(utils)
 add_subdirectory(world)
 add_subdirectory(demolish)

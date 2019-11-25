@@ -1,6 +1,6 @@
 #include <iostream>
 #include "demolish/lib/glut.h"
-#include "demolish/linearalgebra/matrix.h"
+#include "demolish/utils/matrix.h"
 #include "demolish/utils/render_string.h"
 #include "demolish/utils/timer.h"
 #include "demolish/world/scenario.h"

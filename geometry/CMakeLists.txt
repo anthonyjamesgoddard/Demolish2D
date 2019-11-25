@@ -9,4 +9,3 @@ set(HDRS
     polygon.cpp)
 
 add_library(geometry ${SRCS} ${HDRS})
-target_link_libraries(geometry linearalgebra)

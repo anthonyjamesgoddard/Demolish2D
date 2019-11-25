@@ -3,6 +3,7 @@
 #include<iostream>
 
 using demolish::geometry::Sector;
+using demolish::geometry::Vertex;
 
 bool compRadius(std::shared_ptr<Vertex> a, std::shared_ptr<Vertex> b)
 {

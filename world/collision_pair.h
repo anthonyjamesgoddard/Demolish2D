@@ -2,10 +2,8 @@
 
 #include<vector>
 #include"demolish/geometry/vertex.h"
-#include"demolish/object.h"
-#include"demolish/matrix.h"
-using demolish::geometry::Vertex;
-using demolish::world::Object;
+#include"demolish/world/object.h"
+#include"demolish/utils/matrix.h"
 
 /**
  * This collection of functions helps us with our collision
@@ -18,6 +16,7 @@ using demolish::world::Object;
  */
 namespace demolish{
     namespace world{
+        // TODO :: put this a layer deeper
         // SAT helper functions
         std::vector<Vertex>     obtainSATAxes(std::vector<Vertex>& convexHullVerticesOfObjectA,
                                               std::vector<Vertex>& convexHullVerticesOfObjectB);
@@ -47,6 +46,3 @@ namespace demolish{
 
     }
 }
-
-
-#endif

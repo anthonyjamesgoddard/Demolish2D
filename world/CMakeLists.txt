@@ -9,4 +9,4 @@ set(SRCS
     scenario.cpp)
 
 add_library(world ${SRCS} ${HDRS})
-target_link_libraries(world geometry)
+target_link_libraries(world utils)

@@ -1,13 +1,15 @@
 #pragma once
 /**
- * The linear algebra sub directory is going to
- * be replaced by importing solvant
+ * This is going to be replaced with solvants matrix functionality
+ * That is why it is in a stupid place. Although this is not a 
+ * priority as we only every need 2x2 in this case tbh - 
+ * as for as I remember
  */
 
 #include "demolish/geometry/vertex.h"
 
 namespace demolish {
-namespace linearalgebra {
+namespace utils {
 
 using Vertex = demolish::geometry::Vertex;
 
@@ -29,6 +31,6 @@ public:
         std::cout << std::endl;
     }
 };
-}  // namespace linearalgebra
+}  // namespace utils
 }  // namespace demolish
 

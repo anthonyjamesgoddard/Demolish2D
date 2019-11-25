@@ -1,4 +1,5 @@
 #pragma once
+#include <time.h>
 namespace demolish {
 namespace utils {
 class Timer {
