@@ -4,6 +4,7 @@
 #include "demolish/utils/render_string.h"
 #include "demolish/utils/timer.h"
 #include "demolish/world/scenario.h"
+
 using namespace demolish;
 
 world::Scenario scenario(0.1, 10);
@@ -17,21 +18,6 @@ void displayfunc(void) {
     glVertex2f(1, 1);
     glVertex2f(49, 1);
     glEnd();
-    /*
-        displayString( 0.2, 0.1, "WASD to move" );
-        if(scenario.breachedSpheres())
-        {
-            displayString(0.2,0.3,"Sphere Breached");
-        }
-        if(scenario.breachedHulls())
-        {
-            displayString(0.2,0.5,"Convex Hull Breached");
-        }
-        if(scenario.hasCollision())
-        {
-            displayString(3,0.1,"Collision!!!!!!!!!!!!!!!!!!!");
-        }
-        */
 
     auto cpsvec = scenario.obtainCollisionPoints();
     for (auto& cps : cpsvec) {
@@ -41,7 +27,6 @@ void displayfunc(void) {
         glVertex2f(cps.getX(), cps.getY());
         glEnd();
     }
-    /*
     cpsvec = scenario.obtainCHCollisionPoints();
     for(auto&cps:cpsvec)
     {
@@ -69,10 +54,7 @@ void displayfunc(void) {
         std::string objectB = std::to_string(cps.first.second);
         std::string sectorA = std::to_string(cps.second.first);
         std::string sectorB = std::to_string(cps.second.second);
-        displayString(5,0.1+0.2*i,("object "+objectA+" ,sector "+sectorA+" is
-    soon to have contact with  "+objectB+" ,sector "+sectorB).c_str());
     }
-*/
     glutSwapBuffers();
 }
 

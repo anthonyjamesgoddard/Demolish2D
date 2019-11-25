@@ -9,9 +9,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-add_executable(demolish demolish/main.cpp)
-find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
-
-target_link_libraries(demolish ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+# these are in a specific order (we use the fact that
+# linear algebra will inherit utils and geometry
+# will inherit linear algebra which will inherit utils
+add_subdirectory(utils)
+add_subdirectory(linearalgebra)
+add_subdirectory(geometry)
+add_subdirectory(world)
+add_subdirectory(demolish)
