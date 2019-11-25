@@ -1,0 +1,15 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: macos
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: cmake
+      run: cmake -H. -Bbuild
+    - name: make
+      run: make -C build
