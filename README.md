@@ -2,7 +2,7 @@
 
 A 2D physics engine (WIP) with an experimental progressive boundary resolution algorithm
 
-To generate a build
+To generate a build:
 <pre><code>
 cmake -Bbuild && make -C build
 </code></pre>
