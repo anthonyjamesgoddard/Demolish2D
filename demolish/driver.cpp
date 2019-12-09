@@ -1,9 +1,10 @@
-#include <iostream>
 #include "demolish/lib/glut.h"
 #include "demolish/utils/matrix.h"
 #include "demolish/utils/render_string.h"
 #include "demolish/utils/timer.h"
 #include "demolish/world/scenario.h"
+
+#include <iostream>
 
 using namespace demolish;
 
@@ -28,27 +29,24 @@ void displayfunc(void) {
         glEnd();
     }
     cpsvec = scenario.obtainCHCollisionPoints();
-    for(auto&cps:cpsvec)
-    {
-        glColor3f(0,1,0);
+    for (auto& cps : cpsvec) {
+        glColor3f(0, 1, 0);
         glPointSize(5.0);
         glBegin(GL_POINTS);
-        glVertex2f(cps.getX(),cps.getY());
+        glVertex2f(cps.getX(), cps.getY());
         glEnd();
     }
     auto cpsvecofpairs = scenario.obtainEdgesUnderConsideration();
-    for(auto&cps:cpsvecofpairs)
-    {
-        glColor3f(0,1,0);
+    for (auto& cps : cpsvecofpairs) {
+        glColor3f(0, 1, 0);
         glPointSize(5.0);
         glBegin(GL_LINES);
-        glVertex2f(cps.first.getX(),cps.first.getY());
-        glVertex2f(cps.second.getX(),cps.second.getY());
+        glVertex2f(cps.first.getX(), cps.first.getY());
+        glVertex2f(cps.second.getX(), cps.second.getY());
         glEnd();
     }
     auto cpslalal = scenario.obtainBreachedSectors();
-    for(unsigned int i=0;i<cpslalal.size();i++)
-    {
+    for (unsigned int i = 0; i < cpslalal.size(); i++) {
         auto cps = cpslalal[i];
         std::string objectA = std::to_string(cps.first.first);
         std::string objectB = std::to_string(cps.first.second);
@@ -74,21 +72,23 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 's':
             scenario.manuallyMoveObject(0, 0, -0.1);
-            glutPostRedisplay();
             break;
         case 'w':
             scenario.manuallyMoveObject(0, 0, 0.1);
-            glutPostRedisplay();
             break;
         case 'd':
             scenario.manuallyMoveObject(0, 0.1, 0);
-            glutPostRedisplay();
             break;
         case 'a':
             scenario.manuallyMoveObject(0, -0.1, 0);
-            glutPostRedisplay();
+            break;
+        case 27:
+            int hW = glutGetWindow();
+            glutDestroyWindow(hW);
+            exit(0);
             break;
     }
+    glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {

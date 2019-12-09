@@ -1,8 +1,10 @@
 #include "demolish/world/object.h"
+#include "demolish/lib/glut.h"
+
 #include <cmath>
 #include <iostream>
 #include <memory>
-#include "demolish/lib/glut.h"
+
 void demolish::world::Object::fillSectors() {
     auto geometryVerts = _geometry.getVertices();
     auto hullVerts = _convexHull.getVertices();
@@ -208,30 +210,24 @@ void demolish::world::Object::calculateMaterialParameters(float density) {
 
 void demolish::world::Object::draw() {
     // draw the object
-    /*
-    glColor3f(1,1,1);
+    glColor3f(1, 1, 1);
     auto verts = _geometry.getVertices();
     glBegin(GL_LINE_LOOP);
-    for(int i=0;i<verts.size();i++)
-    {
+    for (int i = 0; i < verts.size(); i++) {
         glVertex2f(verts[i].getX() + std::get<0>(_location),
                    verts[i].getY() + std::get<1>(_location));
     }
 
     // draw the convex hull
     glEnd();
-    */
-    /*
-    glColor3f(1,0,0);
+    glColor3f(1, 0, 0);
     verts = _convexHull.getVertices();
     glBegin(GL_LINE_LOOP);
-    for(int i=0;i<verts.size();i++)
-    {
+    for (int i = 0; i < verts.size(); i++) {
         glVertex2f(verts[i].getX() + std::get<0>(_location),
                    verts[i].getY() + std::get<1>(_location));
     }
     glEnd();
-    */
     // draw the centroid
     // note that the entroid of the object is the
     // centroid of _geometry
@@ -245,22 +241,16 @@ void demolish::world::Object::draw() {
 
     // draw the bounding radius
     //
-    /*
-      glColor3f(1,1,0);
-      glBegin(GL_LINE_LOOP);
-      float theta = 0;
-      float inc = M_PI * 2.0f / 50.0f;
-      for(int i=0;i<50;i++)
-      {
-
-          glVertex2f(std::get<0>(_location) + _boundingRadius*std::cos(theta),
-                     std::get<1>(_location) + _boundingRadius*std::sin(theta));
-          theta += inc;
-
-
-      }
-      glEnd();
-     */
+    glColor3f(1, 1, 0);
+    glBegin(GL_LINE_LOOP);
+    float theta = 0;
+    float inc = M_PI * 2.0f / 50.0f;
+    for (int i = 0; i < 50; i++) {
+        glVertex2f(std::get<0>(_location) + _boundingRadius * std::cos(theta),
+                   std::get<1>(_location) + _boundingRadius * std::sin(theta));
+        theta += inc;
+    }
+    glEnd();
 
     for (int i = 0; i < _sectors.size(); i++) {
         auto drawvec = _sectors[i].obtainCurrentLevelOfDetailInWorld(_location);
