@@ -4,7 +4,7 @@ A 2D physics engine (WIP) with an experimental progressive boundary resolution a
 
 To generate a build:
 <pre><code>
-cmake -Bbuild && make -C build
+cmake -H. -Bbuild && make -C build
 </code></pre>
 
 To generate documentation:
