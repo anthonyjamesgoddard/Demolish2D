@@ -1,10 +1,11 @@
+#include <stdlib.h>
+#include <iostream>
+
 #include "demolish/lib/glut.h"
 #include "demolish/utils/matrix.h"
 #include "demolish/utils/render_string.h"
 #include "demolish/utils/timer.h"
 #include "demolish/world/scenario.h"
-
-#include <iostream>
 
 using namespace demolish;
 
